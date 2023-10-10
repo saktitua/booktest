@@ -16,8 +16,7 @@
             <div class="kt-portlet__head-toolbar">
                 <div class="kt-portlet__head-wrapper">
                     <div class="kt-portlet__head-actions">
-               
-                        <a href="#" class="btn btn-primary-custom btn-icon-sm">
+                        <a href="javascript:;" class="btn btn-primary-custom btn-icon-sm btn-refresh">
                             <i class="la la-refresh"></i>
                             Refresh
                         </a>
@@ -35,7 +34,9 @@
             <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
                 <thead style="background-color:#1e1e2d;color:white">
                     <tr>
-                        <th style="color:white">Nama</th>
+                        <th style="color:white">Kode Cabang</th>
+                        <th style="color:white">Nama Cabang</th>
+                        <th style="color:white">Alamat</th>
                         <th style="color:white">Actions</th>
                     </tr>
                 </thead>
@@ -68,8 +69,16 @@
             },
             columns:[
                 {
-                    data:"name",
-                    name:"name",
+                    data:"kode_cabang",
+                    name:"kode_cabang",
+                },
+                {
+                    data:"nama_cabang",
+                    name:"nama_cabang",
+                },
+                {
+                    data:"alamat",
+                    name:"alamat",
                 },
                 {
                     data:"actions",
@@ -104,6 +113,11 @@
                     $('.modal-dialog').addClass('modal-lg');
                 }
             });
+        });
+        
+        $(document).on('click','.btn-refresh',function(e){
+            e.preventDefault();
+            $('#kt_table_1').DataTable().ajax.reload();
         });
     });
     

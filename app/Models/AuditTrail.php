@@ -10,9 +10,17 @@ class AuditTrail extends Model
     use HasFactory;
 
     protected $table = "audittrail"; 
+    protected $fillable =[
+        'id',
+        'menu',
+        'description0',
+        'username',
+        'jenis_layanan',
+
+    ];
 
     public static function doLogAudit($menu,$description,$username,$jenis_layanan){
-        $audit = new $this->class;
+        $audit = new AuditTrail;
         $audit->menu = $menu;
         $audit->description = $description;
         $audit->username = $username;

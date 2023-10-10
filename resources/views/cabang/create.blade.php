@@ -8,8 +8,18 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="form">
+                    <label>kode Cabang</label>
+                    <input type="text" required class="form-control" autocomplete="off" name="kode_cabang" placeholder="Silahkan masukkan kode cabang">
+                    <span class="form-text text-muted">silahkan di isi</span>
+                </div>
+                <div class="form">
                     <label>Nama Cabang</label>
                     <input type="text" required class="form-control" autocomplete="off" name="nama_cabang" placeholder="Silahkan masukkan nama cabang">
+                    <span class="form-text text-muted">silahkan di isi</span>
+                </div>
+                <div class="form">
+                    <label>Nama Cabang</label>
+                    <textarea  required class="form-control" autocomplete="off" name="alamat" placeholder="Silahkan masukkan alamat"></textarea>
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
             </div>

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Role;
-use App\Models\permission;
-
+use App\Models\Role as Roles;
+use App\Models\permission as Permissions;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use DB;
+use App\Models\User;
+use Artisan;
 class RoleManagementController extends Controller
 {
     /**
@@ -22,7 +26,7 @@ class RoleManagementController extends Controller
         $start      = $request->input('start');
         $order      = $column[$request->input('order.0.column')];
         $dir        = $request->input('order.0.dir');
-        $temps      = Role::select("id","name","guard_name","id as actions");
+        $temps      = Roles::select("id","name","guard_name","id as actions");
         $total      = $temps->count();
         $totalFiltered = $total;
 
@@ -88,9 +92,10 @@ class RoleManagementController extends Controller
      */
     public function edit(string $id)
     {
-        $roles  = Role::find($id);
-        $permission = Permission::all();
-        $user = Permission::all();
+        $roles  = Roles::find($id);
+        $permission = Permissions::all();
+        $user = Permissions::all();
+      
         return view('role-management.edit',compact('roles','permission','user'));
     }
 
@@ -99,7 +104,52 @@ class RoleManagementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $checkboxarray = $request->checkboxArray;
+        $permission = Permissions::whereIn('name',$checkboxarray)->get();       
+        $ids = array();
+        foreach($permission as $key => $die){
+            $ids [] = $die->id;
+        }
+        $role = Roles::find($id);
+        $check = DB::table('role_has_permissions')->where('role_id',$id)->get();
+        if(isset($check)){
+            DB::table('role_has_permissions')->where('role_id',$id)->delete();    
+            foreach($permission as $key => $die){
+                DB::table('role_has_permissions')->insert([
+                    'permission_id'=>$die->id,
+                    'role_id'=>$role->id,
+                ]);
+            }
+        }else{
+            foreach($permission as $key => $die){
+                DB::table('role_has_permissions')->insert([
+                    'permission_id'=>$die->id,
+                    'role_id'=>$role->id,
+                ]);
+            }
+        }
+        Artisan::call('cache:clear');
+        return redirect()->route('roles-management.index')->with(['success'=>'Akses berhasil di update']);
+        /*
+        $pengguna = DB::table('users')->where('role',$role->name)->get();    
+        foreach($pengguna as $die){
+            $pengguna = User::find($die->id);
+            $pengguna->save();
+            $pengguna->assignRole($role->name);
+        }
+        $roles = Roles::find($id);
+        $checkboxarray = $request->checkboxArray;
+        $permission = Permissions::whereIn('name',$checkboxarray)->get();
+        $role = Role::findByName($roles->name);
+        $role->syncPermissions($permission);
+    
+  
+        foreach($permission as $die){
+            $role = Role::findByName($roles->name);
+            $role->givePermissionTo($die->name);
+        }*/    
+
     }
 
     /**

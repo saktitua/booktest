@@ -23,6 +23,7 @@
         height: 110px;
         min-height: 50px;
         position: relative;
+        font-size: 1px;
         z-index: 1;
     }
     .kt-header-mobile__logo{
@@ -37,6 +38,8 @@
         margin-top: 2em;
         display: inline-block;
         margin-left: 2.5em;
+        font-size:0.4em;
+        border-radius: 10px;
     }
 
     .pagination a {
@@ -44,19 +47,23 @@
         float: left;
         padding: 8px 16px;
         text-decoration: none;
-        font-size:1.8em;
+        font-size:0.8em;
         border: #1a1a27 solid;
+        border-radius: 10px;
     }
 
     .pagination a.active {
         background-color: #4CAF50;
         color: white;
         border-radius: 0px;
+        font-size: 0.9em;
+        border-radius: 10px;
     }
 
     .pagination a:hover:not(.active) {
         background-color: #4CAF50;
         border-radius: 0px;
+        font-size: 0.9em;
     }
     
     .header{
@@ -64,16 +71,17 @@
     }
     .question{
         display: inline-block;
-        margin: 2em;
+        margin: 0.1em;
+        font-size: 1em;
     }
     .question-text{
         padding: 8px 16px;
         display: inline-block;
         margin: 0em;
-        font-size: 1.8em;
+        font-size: 0.8em;
     }
     .header_text{
-        font-size: 1.8em;
+        font-size: 0.8em;
     }
 
 
@@ -82,19 +90,21 @@
         float: left;
         padding: 8px 16px;
         text-decoration: none;
-        font-size:1.8em;
         border: #1a1a27 solid;
+        font-size: 0.8em;
     }
 
     .pagination2 a.active {
         background-color: #4CAF50;
         color: white;
         border-radius: 0px;
+        font-size: 0.8em;
     }
 
     .pagination2 a:hover:not(.active) {
         background-color: #4CAF50;
         border-radius: 0px;
+        font-size: 0.8em;
     }
 
     .form-control {
@@ -102,10 +112,10 @@
         width: 100%;
         height: calc(1.5em + 1.3rem + 2px);
         padding: 0.65rem 1rem;
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-weight: 400;
         line-height: 1.5;
-        margin-left:1.7em;
+        margin-left:0.1em;
         color: #495057;
         background-color: #fff;
         background-clip: padding-box;
@@ -115,6 +125,20 @@
         transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    }
+    .button {
+        display:block;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding:15px 52px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 8px;
+        width: 100%;
+        cursor: pointer;
     }
 
 </style>

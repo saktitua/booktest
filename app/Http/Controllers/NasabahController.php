@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Report;
+use App\Models\Role;
+use App\Models\AuditTrail;
 
 class NasabahController extends Controller
 {
@@ -31,22 +33,25 @@ class NasabahController extends Controller
     public function store(Request $request)
     {
         $pengguna = User::where('generate',$request->code)->first();
+        $role = Role::where('name',$pengguna->role)->first();
         $report = new Report;
-        $report->user       = $pengguna->id;
-        $report->role_id    = $pengguna->role_id;
+        $report->user_id    = $pengguna->id;
+        $report->role_id    = $role->id;
         $report->cabang_id  = $pengguna->cabang_id;
-        $report->nama       = $request->nama;
-        $report->ques1      = $request->ques1;
-        $report->ques2      = $request->ques2;
-        $report->ques3      = $request->ques3;
-        $report->ques4      = $request->ques4;
-        $report->ques5      = $request->ques5;
-        $report->ques5      = $request->ques5;
-        $report->ques6      = $request->ques6;
-        $report->ques7      = $request->ques7;
-        $report->reason     = $request->reason;
+        $report->nama       = $request->nama ?? 'Anonim';
+        $report->ques1      = $request->ques1 ?? 0 ;
+        $report->ques2      = $request->ques2 ?? 0 ;
+        $report->ques3      = $request->ques3 ?? 0 ;
+        $report->ques4      = $request->ques4 ?? 0 ;
+        $report->ques5      = $request->ques5 ?? 0 ;
+        $report->ques5      = $request->ques5 ?? 0 ;
+        $report->ques6      = $request->ques6 ?? 0 ;
+        $report->ques7      = $request->ques7 ?? 0 ;
+        $report->reason     = $request->reason ?? '-';
+        $report->date       = date("Y-m-d");
         $report->save();
-        return redirect()->back()->with(['success'=>'Terimakasih atas survei anda ']);
+        AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');
+        return redirect()->back()->with(['success'=>'']);
 
     }
 

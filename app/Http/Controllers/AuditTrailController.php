@@ -12,7 +12,11 @@ class AuditTrailController extends Controller
      */
     public function index()
     {
-        return view('auditTrail.index');
+        if(Auth()->user()->can('Audit Trails')){
+            return view('auditTrail.index');
+        }else{
+            abort(404, 'Page not found');
+        }
     }
 
     public function getAjax(request $request){
@@ -46,6 +50,7 @@ class AuditTrailController extends Controller
                 $obj['description']      = $die->description;
                 $obj['username']         = $die->username;
                 $obj['jenis_layanan']    = $die->jenis_layanan;
+                $obj['created_at']       = date("d F Y",strtotime($die->created_at));
                 $data [] = $obj;
             }
         }

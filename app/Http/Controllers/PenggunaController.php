@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Cabang;
 use App\Models\JenisLayanan;
-use App\Models\Role;
+use App\Models\Role as Roles;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use Spatie\Permission\Models\Role;
+use PDF;
+use Artisan;
 
 class PenggunaController extends Controller
 {
@@ -19,6 +21,7 @@ class PenggunaController extends Controller
     public function index()
     {
         return view('user.index');
+        
     }
 
     public function getAjax(request $request){
@@ -50,13 +53,18 @@ class PenggunaController extends Controller
         if(!empty($temp)){
 
             foreach($temp as $key => $die){
+                if(Auth()->user()->can('Edit Action')){
+                    $edit = '<a href="javascript:;" data-href="'.route('pengguna.edit',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="la la-edit"></i></a>';
+                }else{
+                    $edit ="-";
+                }
                 $obj['name']            = $die->name;
                 $obj['username']        = $die->username;
                 $obj['nik']             = $die->nik;
                 $obj['nama_cabang']     = $die->cabang->nama_cabang;
                 $obj['jenis_layanan']   = $die->role;
                 $obj['created_at']      = date('d F Y',strtotime($die->created_at));
-                $obj['actions']         = '<a href="javascript:;" data-href="'.route('pengguna.edit',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="la la-edit"></i></a>';
+                $obj['actions']         = $edit;
                 $data [] = $obj;
             }
         }
@@ -86,6 +94,11 @@ class PenggunaController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->role === 'Superadmin' || $request->role === 'superadmin' || $request->role === 'Admin' || $request->role ==='admin'){
+            $generate = null;
+        }else{
+            $generate = Str::uuid()->toString();
+        }
         $pengguna = new User;
         $pengguna->name = $request->name;
         $pengguna->username = $request->username;
@@ -95,7 +108,9 @@ class PenggunaController extends Controller
         $pengguna->nik = $request->nik;
         $pengguna->cabang_id = $request->cabang_id;
         $pengguna->role = $request->role;
-        $pengguna->generate = Str::uuid()->toString();
+        $pengguna->generate = $generate;
+        $pengguna->removeRole($request->role);
+        $pengguna->syncRoles($request->role);
         $pengguna->save();
         return redirect()->route('pengguna.index')->with(['success'=>'Pengguna Berhasil Ditambahkan']);
     }
@@ -114,7 +129,7 @@ class PenggunaController extends Controller
     public function edit(string $id)
     {
         $pengguna =  User::find($id);
-        $role = Role::all();
+        $role = Roles::all();
         $cabang = Cabang::all();
         $layanan = JenisLayanan::all();
         return view('user.edit',compact('pengguna','role','cabang','layanan'));
@@ -138,9 +153,13 @@ class PenggunaController extends Controller
         $pengguna->phone_number = $request->phone_number;
         $pengguna->nik = $request->nik;
         $pengguna->cabang_id = $request->cabang_id;
-        $pengguna->jenis_layanan_id = $request->jenis_layanan_id;
         $pengguna->role = $request->role;
         $pengguna->save();
+       
+        $role = Role::findByName($request->role);
+        $pengguna->removeRole($role->name);
+        $pengguna->syncRoles($role->name);
+        Artisan::call('cache:clear');
         return redirect()->route('pengguna.index')->with(['success'=>'Pengguna Berhasil Diupdated']);
     }
 
@@ -153,7 +172,11 @@ class PenggunaController extends Controller
     }
 
     public function viewQr(){
-        return view('qrcode.index');
+        if(Auth()->user()->can('Menu User')){
+            return view('qrcode.index');
+        }else{
+            abort(404, 'Page not found');
+        }
     }
 
     public function getQrAjax(request $request){
@@ -183,15 +206,19 @@ class PenggunaController extends Controller
 
         $data = array();
         if(!empty($temp)){
-
             foreach($temp as $key => $die){
+                if(Auth()->user()->can('Print QR')){
+                    $QR = '<a href="javascript:;" data-href="'.route('admin.users.qrcode.printqrcode',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="flaticon2-printer"></i></a>';
+                }else{
+                    $QR ="-";
+                }
                 $obj['name']            = $die->name;
                 $obj['username']        = $die->username;
                 $obj['nik']             = $die->nik;
                 $obj['nama_cabang']     = $die->cabang->nama_cabang;
                 $obj['jenis_layanan']   = $die->role;
                 $obj['created_at']      = date('d F Y',strtotime($die->created_at));
-                $obj['QR']              = '<a href="javascript:;" data-href="'.route('admin.users.qrcode.printqrcode',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="flaticon2-printer"></i></a>';
+                $obj['QR']              = $QR;
                 $data [] = $obj;
             }
         }
@@ -209,6 +236,12 @@ class PenggunaController extends Controller
     {
         $pengguna =  User::find($id);
         return view('qrcode.printqr',compact('pengguna'));
+    }
+
+    public function printHardCode($id){
+        $pengguna =  User::find($id);
+        $cabang   = Cabang::find($pengguna->cabang_id);
+        return view('qrcode.print',compact('pengguna','cabang'));
     }
 
 }

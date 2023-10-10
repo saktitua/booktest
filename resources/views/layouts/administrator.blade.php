@@ -4,7 +4,7 @@
 	<head>
 		<base href="">
 		<meta charset="utf-8" />
-		<title>Microsite | Dashboard</title>
+		<title>Microsite | {{$title}}</title>
 		<meta name="description" content="Updates and statistics">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf_token" content="{{ csrf_token() }}">
@@ -62,9 +62,8 @@
 		<!-- end::Scrolltop -->
         
         @include('layouts.js')
-
 		@if(\Session::has('success'))
-			<div class="alert-text-success">{{\Session::get('success')}}</div>
+			<div style="display:none" class="alert-text-success">{{\Session::get('success')}}</div>
 			<script>
 				var alertSuccess = $('.alert-text-success').html();
 				swal.fire({
@@ -77,7 +76,7 @@
 			</script>
 		@endif
 		@if(\Session::has('danger'))
-			<div class="alert-text-danger">{{\Session::get('danger')}}</div>
+			<div style="display:none"  class="alert-text-danger">{{\Session::get('danger')}}</div>
 			<script>
 				var alertDanger = $('.alert-text-danger').html();
 				swal.fire({
@@ -90,7 +89,7 @@
 			</script>
 		@endif
 		@if(\Session::has('warning'))
-			<div class="alert-text-warning">{{\Session::get('warning')}}</div>
+			<div style="display:none"  class="alert-text-warning">{{\Session::get('warning')}}</div>
 			<script>
 				var alertWarning = $('.alert-text-warning').html();
 				swal.fire({
@@ -102,7 +101,15 @@
 				});
 			</script>
 		@endif
-		
+		<script>
+			$('#kt_datepicker').datepicker({
+				todayHighlight: true,
+				templates: {
+					leftArrow: '<i class="la la-angle-left"></i>',
+					rightArrow: '<i class="la la-angle-right"></i>',
+				},
+			});
+		</script>
 		@stack('script')
 	</body>
 	<!-- end::Body -->

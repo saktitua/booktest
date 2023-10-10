@@ -11,9 +11,12 @@ class ApprovalController extends Controller
      */
     public function index()
     {
-        return view('approval.index');
+        if(Auth()->user()->can('Create User Approval')){
+            return view('approval.index');
+        }else{
+            abort(404, 'Page not found');
+        }
     }
-
     public function getAjax(request $request){
         $column     = array('name','username','nik','date','status','confirmation_status','actions');
         $limit      = $request->input('length');

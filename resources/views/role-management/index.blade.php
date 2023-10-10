@@ -16,8 +16,7 @@
             <div class="kt-portlet__head-toolbar">
                 <div class="kt-portlet__head-wrapper">
                     <div class="kt-portlet__head-actions">
-               
-                        <a href="#" class="btn btn-primary-custom btn-icon-sm">
+                        <a href="javascript:;" class="btn btn-primary-custom btn-icon-sm btn-refresh">
                             <i class="la la-refresh"></i>
                             Refresh
                         </a>
@@ -90,8 +89,16 @@
                     $('.modal-dialog').addClass('modal-lg');
                 }
             });
+
+            $(document).on('click','.checkall',function(e){
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+
+        $(document).on('click','.btn-refresh',function(e){
+            e.preventDefault();
+            $('#kt_table_1').DataTable().ajax.reload();
         });
     });
-    
 </script>
 @endpush

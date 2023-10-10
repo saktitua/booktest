@@ -48,7 +48,8 @@
                     <h4 class="kt-menu__section-text">Management</h4>
                     <i class="kt-menu__section-icon flaticon-more-v2"></i>
                 </li>
-                <li class="kt-menu__item   kt-menu__item--submenu @if($title == 'Role Maintenance' || $title == 'Role Management' || $title == 'Pengguna' || $title=='Cabang' || $title=='Approval'|| $title =='Audit Trail' || $title =='Report') {{"kt-menu__item--active kt-menu__item--open"}} @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                @can('Menu Admin')
+                <li class="kt-menu__item   kt-menu__item--submenu @if($title == 'Role Maintenance' || $title == 'Role Management' || $title == 'Pengguna' || $title =='Ganti Password Admin' || $title == 'Ganti Password User' || $title=='Cabang' || $title=='Approval'|| $title =='Audit Trail' || $title =='Report') {{"kt-menu__item--active kt-menu__item--open"}} @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon">
                         <svg width="800px" height="800px" viewBox="0 0 24 24" fill="#1e1e2d" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -61,40 +62,63 @@
                             <li class="kt-menu__item  kt-menu__item--submenu @if($title == 'Role Maintenance' || $title == 'Role Management') {{"kt-menu__item--active kt-menu__item--open"}} @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">Maintenance</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
                                 <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
                                     <ul class="kt-menu__subnav">
-                                        <li class="kt-menu__item @if($title == 'Role Maintenance') {{"kt-menu__item--active "}} @endif" aria-haspopup="true"><a href="{{route('roles.index')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Maintenance</span></a></li>
-                                        <li class="kt-menu__item @if($title == 'Role Management') {{"kt-menu__item--active "}} @endif" aria-haspopup="true"><a  href="{{route('roles-management.index')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Management</span></a></li>
+                                        @can('Role Maintenance')
+                                            <li class="kt-menu__item @if($title == 'Role Maintenance') {{"kt-menu__item--active "}} @endif" aria-haspopup="true"><a href="{{route('roles.index')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Maintenance</span></a></li>
+                                        @endcan
+                                        @can('Role Management')
+                                            <li class="kt-menu__item @if($title == 'Role Management') {{"kt-menu__item--active "}} @endif" aria-haspopup="true"><a  href="{{route('roles-management.index')}}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Role Management</span></a></li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </li>
+                            @can('Cabang')
                             <li class="kt-menu__item @if($title == 'Cabang') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('cabang.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">Cabang</span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('Create User')
                             <li class="kt-menu__item @if($title == 'Pengguna') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('pengguna.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">User</span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('Ganti Password Admin')
+                            <li class="kt-menu__item @if($title == 'Ganti Password Admin') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
+                                <a href="{{route('ganti-password-admin.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                    <span></span></i><span class="kt-menu__link-text">Ganti Password Admin</span>
+                                </a>
+                            </li>
+                            @endcan
+                            
+                            @can('Create User Approval')
                             <li class="kt-menu__item @if($title == 'Approval') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('approval.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">Approval</span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('Print Report')
                             <li class="kt-menu__item @if($title == 'Report') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('report.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">Report</span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('Audit Trails')
                             <li class="kt-menu__item @if($title == 'Audit Trail') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('auditTrail.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">Audit Trails</span>
                                 </a>
                             </li>
-                           
+                            @endcan
                         </ul>
                     </div>
                 </li>
+                @endcan
+                @can('Menu User')
                 <li class="kt-menu__item  @if($title == 'Users') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                     <a href="{{route('admin.users.qrcode')}}" class="kt-menu__link "><span class="kt-menu__link-icon">
                         <svg fill="#FFF"  width="24px" height="24px"  viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -104,6 +128,18 @@
                         </span><span class="kt-menu__link-text">Users</span>
                     </a>
                 </li>
+                @endcan
+                @can('Ganti Password User')
+                <li class="kt-menu__item  @if($title == 'Ganti Password User') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
+                    <a href="{{route('ganti-password-user.index')}}" class="kt-menu__link "><span class="kt-menu__link-icon">
+                        <?xml version="1.0" encoding="utf-8"?>
+                            <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none">
+                            <path d="M19 18.0039V17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17V18.0039M10 21H4C4 17.134 7.13401 14 11 14C11.3395 14 11.6734 14.0242 12 14.0709M15.5 21H18.5C18.9659 21 19.1989 21 19.3827 20.9239C19.6277 20.8224 19.8224 20.6277 19.9239 20.3827C20 20.1989 20 19.9659 20 19.5C20 19.0341 20 18.8011 19.9239 18.6173C19.8224 18.3723 19.6277 18.1776 19.3827 18.0761C19.1989 18 18.9659 18 18.5 18H15.5C15.0341 18 14.8011 18 14.6173 18.0761C14.3723 18.1776 14.1776 18.3723 14.0761 18.6173C14 18.8011 14 19.0341 14 19.5C14 19.9659 14 20.1989 14.0761 20.3827C14.1776 20.6277 14.3723 20.8224 14.6173 20.9239C14.8011 21 15.0341 21 15.5 21ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        </span><span class="kt-menu__link-text">Ganti Password User</span>
+                    </a>
+                </li>
+                @endcan
             </ul>
         </div>
     </div>

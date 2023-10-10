@@ -15,5 +15,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-    <button type="button" form="create-form" class="btn btn-primary-custom">Cetak</button>    
+    <a href="{{route('admin.users.qrcode.printhardcode',$pengguna->id)}}"  class="btn btn-primary-custom" target="_blank"><i class="flaticon2-printer"></i>Cetak Barcode</a>   
 </div>

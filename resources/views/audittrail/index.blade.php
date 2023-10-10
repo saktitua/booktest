@@ -17,7 +17,7 @@
                 <div class="kt-portlet__head-wrapper">
                     <div class="kt-portlet__head-actions">
                
-                        <a href="#" class="btn btn-primary-custom btn-icon-sm">
+                        <a href="javascript:;" class="btn btn-primary-custom btn-icon-sm btn-refresh">
                             <i class="la la-refresh"></i>
                             Refresh
                         </a>
@@ -88,32 +88,9 @@
             ]
         });
 
-        $(document).on('click','.btn-add',function(e){
+        $(document).on('click','.btn-refresh',function(e){
             e.preventDefault();
-            const href= $(this).attr('data-href');
-            console.log(href);
-            $.ajax({
-                url: href,
-                success: function(result){
-                    $('#kt_modal_1').modal('show');
-                    $('#modalContent').html(result).show();
-                    $('.modal-dialog').addClass('modal-lg');
-                }
-            });
-        });
-
-        $(document).on('click','.btn-edit',function(e){
-            e.preventDefault();
-            const href= $(this).attr('data-href');
-            console.log(href);
-            $.ajax({
-                url: href,
-                success: function(result){
-                    $('#kt_modal_1').modal('show');
-                    $('#modalContent').html(result).show();
-                    $('.modal-dialog').addClass('modal-lg');
-                }
-            });
+            $('#kt_table_1').DataTable().ajax.reload();
         });
     });
     

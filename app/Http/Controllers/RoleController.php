@@ -12,7 +12,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('role.index');
+        if(Auth()->user()->can('Print Report')){
+            return view('role.index');
+        }else{
+            abort(404, 'Page not found');
+        }
     }
 
     

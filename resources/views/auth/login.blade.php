@@ -23,7 +23,7 @@
             <!--begin::Form-->
             <form class="kt-form" action="" novalidate="novalidate" id="kt_login_form">
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Username" name="email" autocomplete="off">
+                    <input class="form-control" type="email" placeholder="Username" name="email" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="password" placeholder="Password" name="password" autocomplete="off">
@@ -97,8 +97,23 @@ var KTLoginV1 = function () {
 				success: function (response, status, xhr, $form) {
 					// similate 2s delay
 					setTimeout(function () {
+						swal.fire({
+							position:"text-center",
+							type:"success",
+							title:'sukses login',
+							showConfirmButton:false,
+							timer:15000,
+						});
                         location.reload();
 					}, 2000);
+				},error:function(e){
+					swal.fire({
+						position:"text-center",
+						type:"error",
+						title:'username dan password tidak cocok',
+						showConfirmButton:false,
+						timer:15000,
+					});
 				}
 			});
 		});

@@ -11,6 +11,8 @@ use App\Http\Controllers\CabangController;
 use App\Http\Controllers\AuditTrailController;
 use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\GantiPasswordAdmin;
+use App\Http\Controllers\GantiPasswordUser;
 
 
 
@@ -31,6 +33,7 @@ use App\Http\Controllers\ReportController;
 // });
 
 Route::get('/{generate}',[NasabahController::class, 'index'])->name('nasabah');
+Route::post('/nasabah/store',[NasabahController::class, 'store'])->name('nasabah.store');
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
@@ -55,12 +58,15 @@ Route::prefix('admin')->group(function () {
 
     Route::resource('report',ReportController::class)->middleware('auth');
     Route::post('/report/ajax',[ReportController::class, 'getAjax'])->name('admin.report.ajax')->middleware('auth');
+    Route::post('/report/export',[ReportController::class, 'export'])->name('admin.report.export')->middleware('auth');
 
     Route::get('users/qrcode',[PenggunaController::class, 'viewQr'])->name('admin.users.qrcode')->middleware('auth');
     Route::post('/users/qrcode/ajax',[PenggunaController::class, 'getQrAjax'])->name('admin.users.qrcode.ajax')->middleware('auth');
     Route::get('/users/qrcode/printqrcode/{id}',[PenggunaController::class, 'printqrcode'])->name('admin.users.qrcode.printqrcode')->middleware('auth');
-
+    Route::get('/users/qrcode/printhardcode/{id}',[PenggunaController::class, 'printHardCode'])->name('admin.users.qrcode.printhardcode')->middleware('auth');
     
+    Route::resource('ganti-password-admin',GantiPasswordAdmin::class)->middleware('auth');
+    Route::resource('ganti-password-user',GantiPasswordUser::class)->middleware('auth');
     
 });
 
