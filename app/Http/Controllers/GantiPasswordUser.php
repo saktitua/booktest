@@ -15,7 +15,7 @@ class GantiPasswordUser extends Controller
      */
     public function index()
     {
-        if(Auth()->user()->can('Ganti Password Admin')){
+        if(Auth()->user()->can('Ganti Password User')){
             $admin = User::find(Auth::user()->id);
             return view('ganti-password-user.index',compact('admin'));
         }else{
