@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\AuditTrail;
+use Auth;
 
 class RoleController extends Controller
 {
@@ -12,14 +14,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        if(Auth()->user()->can('Print Report')){
+        if(Auth()->user()->can('Role Maintenance')){
             return view('role.index');
         }else{
             abort(404, 'Page not found');
         }
     }
-
-    
     public function getAjax(request $request){
         $column     = array('name','guard_name','actions');
         $limit      = $request->input('length');
@@ -78,8 +78,9 @@ class RoleController extends Controller
     {
         $role  = new Role;
         $role->name = $request->nama;
-        $role->guard_name = $request->kode;
+        $role->guard_name = 'web';
         $role->save();
+        AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." membuat role ".$role->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('roles.index')->with(['success'=>'Role Berhasil Ditambahkan']);
     }
 
@@ -108,8 +109,9 @@ class RoleController extends Controller
         
         $roles  = Role::find($id);
         $roles->name = $request->nama;
-        $roles->guard_name = $request->kode;
+        $role->guard_name = 'web';
         $roles->save();
+        AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." mengubah role ".$role->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('roles.index')->with(['success'=>'Role Berhasil Diupdate']);
     }
 

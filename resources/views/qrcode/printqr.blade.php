@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                @if($pengguna->generate !== null)
-                {!! QrCode::size(300)->generate(env('DEV_URL').$pengguna->generate) !!}
+                {!! QrCode::size(300)->generate(env('BARCODE_URL').$pengguna->generate) !!}
                 @else 
                     {{"Tidak ada barcode"}}
                 @endif

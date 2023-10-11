@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
 use App\Models\User;
+use Auth;
+use App\Models\AuditTrail;
 use Artisan;
 class RoleManagementController extends Controller
 {
@@ -95,7 +97,7 @@ class RoleManagementController extends Controller
         $roles  = Roles::find($id);
         $permission = Permissions::all();
         $user = Permissions::all();
-      
+        AuditTrail::doLogAudit('Role Management',Auth::user()->name." membuat akses role ".$roles->name,Auth::user()->name,Auth::user()->role);
         return view('role-management.edit',compact('roles','permission','user'));
     }
 
@@ -131,25 +133,6 @@ class RoleManagementController extends Controller
         }
         Artisan::call('cache:clear');
         return redirect()->route('roles-management.index')->with(['success'=>'Akses berhasil di update']);
-        /*
-        $pengguna = DB::table('users')->where('role',$role->name)->get();    
-        foreach($pengguna as $die){
-            $pengguna = User::find($die->id);
-            $pengguna->save();
-            $pengguna->assignRole($role->name);
-        }
-        $roles = Roles::find($id);
-        $checkboxarray = $request->checkboxArray;
-        $permission = Permissions::whereIn('name',$checkboxarray)->get();
-        $role = Role::findByName($roles->name);
-        $role->syncPermissions($permission);
-    
-  
-        foreach($permission as $die){
-            $role = Role::findByName($roles->name);
-            $role->givePermissionTo($die->name);
-        }*/    
-
     }
 
     /**

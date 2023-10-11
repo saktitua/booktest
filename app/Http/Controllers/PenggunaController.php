@@ -112,6 +112,7 @@ class PenggunaController extends Controller
         $pengguna->removeRole($request->role);
         $pengguna->syncRoles($request->role);
         $pengguna->save();
+        Artisan::call('cache:clear');
         return redirect()->route('pengguna.index')->with(['success'=>'Pengguna Berhasil Ditambahkan']);
     }
 

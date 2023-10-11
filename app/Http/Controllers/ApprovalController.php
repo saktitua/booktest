@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
+use App\Models\AuditTrail;
 class ApprovalController extends Controller
 {
     /**
@@ -106,6 +108,7 @@ class ApprovalController extends Controller
         $pengguna->status = $request->status;
         $pengguna->confirmation_status = $request->submit;
         $pengguna->save();
+        AuditTrail::doLogAudit('Approval',Auth::user()->name." ".$request->submit." user ".$pengguna->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('approval.index')->with(['success'=>'Pengguna Berhasil '.$request->submit]);
       
     }
