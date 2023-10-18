@@ -109,9 +109,9 @@ class RoleController extends Controller
         
         $roles  = Role::find($id);
         $roles->name = $request->nama;
-        $role->guard_name = 'web';
+        $roles->guard_name = 'web';
         $roles->save();
-        AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." mengubah role ".$role->name,Auth::user()->name,Auth::user()->role);
+        AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." mengubah role ".$roles->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('roles.index')->with(['success'=>'Role Berhasil Diupdate']);
     }
 

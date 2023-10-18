@@ -10,7 +10,7 @@
                     &nbsp;
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Ganti Password Admin
+                    Ganti Password User
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
