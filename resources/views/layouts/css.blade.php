@@ -1,5 +1,6 @@
 <!--begin::Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+{{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700"> --}}
+<link rel="stylesheet" href="{{asset('font.css')}}"> 
 <!--end::Fonts -->
 
 <!--begin::Page Custom Styles(used by this page) -->
