@@ -7,18 +7,18 @@
         @csrf
         <div class="row">
             <div class="col-lg-6">
-                <div class="form">
+                <div class="form-group">
                     <label>kode Cabang</label>
                     <input type="text" required class="form-control" autocomplete="off" name="kode_cabang" placeholder="Silahkan masukkan kode cabang">
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
-                <div class="form">
+                <div class="form-group">
                     <label>Nama Cabang</label>
                     <input type="text" required class="form-control" autocomplete="off" name="nama_cabang" placeholder="Silahkan masukkan nama cabang">
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
-                <div class="form">
-                    <label>Nama Cabang</label>
+                <div class="form-group-group">
+                    <label>Alamat</label>
                     <textarea  required class="form-control" autocomplete="off" name="alamat" placeholder="Silahkan masukkan alamat"></textarea>
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>

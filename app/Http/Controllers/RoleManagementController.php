@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Role as Roles;
-use App\Models\permission as Permissions;
+use App\Models\Permissions;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
@@ -39,10 +39,10 @@ class RoleManagementController extends Controller
                     ->get();
         }else{
             $search = $request->input('search.value');
-            $temp   = $temps->whereRaw("name LIKE '%$search'")
+            $temp   = $temps->whereRaw("name LIKE '%$search%'")
                       ->orderBy($order,$dir)
                       ->get();
-            $total  = $temps->whereRaw("name LIKE '%$search'")->count();
+            $total  = $temps->whereRaw("name LIKE '%$search%'")->count();
             $totalFiltered = $total;
         }
 
@@ -51,7 +51,7 @@ class RoleManagementController extends Controller
             foreach($temp as $key => $die){
                 $obj['name']            = $die->name;
                 $obj['guard_name']      = $die->guard_name;
-                $obj['actions']         = '<a href="javascript:;" data-href="'.route('roles-management.edit',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="la la-edit"></i></a>';
+                $obj['actions']         = '<a href="javascript:;" data-href="'.route('roles-management.edit',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" title="Lihat Akses Role" data-toggle="modal" data-target="kt_modal_1"><i class="la la-edit"></i></a>';
                 $data [] = $obj;
             }
         }
@@ -108,6 +108,9 @@ class RoleManagementController extends Controller
     {
 
         $checkboxarray = $request->checkboxArray;
+        if($checkboxarray === null){
+            return redirect()->back()->with(['danger'=>'Akses tidak boleh kosong']);
+        }
         $permission = Permissions::whereIn('name',$checkboxarray)->get();       
         $ids = array();
         foreach($permission as $key => $die){

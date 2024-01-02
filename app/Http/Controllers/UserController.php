@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -61,4 +62,21 @@ class UserController extends Controller
     {
         //
     }
+    
+    /**
+     * Check login.
+     */
+     public function checklogin($email){
+        $check = User::where('email',$email)->first();
+        if($check->status === "Tidak Aktif"){
+            return response()->json([
+                "success"=>false
+            ]);
+        }
+        if($check->status === "Aktif"){
+            return response()->json([
+                "success"=>true
+            ]);
+        }
+     }
 }

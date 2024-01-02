@@ -13,6 +13,7 @@ use App\Http\Controllers\NasabahController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GantiPasswordAdmin;
 use App\Http\Controllers\GantiPasswordUser;
+use App\Http\Controllers\UserController;
 
 
 
@@ -32,10 +33,16 @@ use App\Http\Controllers\GantiPasswordUser;
 //     return view('nasabah.index');
 // });
 
+
 Route::get('/{generate}',[NasabahController::class, 'index'])->name('nasabah');
 Route::post('/nasabah/store',[NasabahController::class, 'store'])->name('nasabah.store');
+Route::get('check/login/{email}',[UserController::class,'checklogin'])->name('user.check.login');
+
+
 
 Route::prefix('admin')->group(function () {
+    Route::get('/notif/modal',[DashboardController::class, 'notifmodal'])->name('notif.modal');
+
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
 
     Route::resource('roles',RoleController::class)->middleware('auth');

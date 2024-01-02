@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             AksesSuperAdminSeeder::class,
             AksesAdminSeeder::class,
             AksesCustomerSeeder::class,
+            AksesSupervisorSeeder::class,
         ]);
     }
 }

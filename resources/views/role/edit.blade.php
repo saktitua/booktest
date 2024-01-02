@@ -7,15 +7,15 @@
         @method('PUT')
         @csrf
         <div class="row">
-            {{-- <div class="col-lg-6">
-                <div class="form">
+            <div class="col-lg-6">
+                <div class="form-group">
                     <label>Kode</label>
-                    <input type="text" required class="form-control" value="{{$roles->guard_name}}" autocomplete="off" name="kode" placeholder="Silahkan masukkan kode">
+                    <input type="text" required class="form-control" value="{{$roles->kode_role}}" autocomplete="off" name="kode_role" placeholder="Silahkan masukkan kode">
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
-            </div> --}}
+            </div>
             <div class="col-lg-6">
-                <div class="form">
+                <div class="form-group">
                     <label>Nama</label>
                     <input type="text" required class="form-control" value="{{$roles->name}}" autocomplete="off" name="nama" placeholder="Silahkan masukkan nama">
                     <span class="form-text text-muted">silahkan di isi</span>

@@ -21,34 +21,35 @@ class RoleController extends Controller
         }
     }
     public function getAjax(request $request){
-        $column     = array('name','guard_name','actions');
+        $bool       = null;
+        $column     = array('name','kode_role','actions');
         $limit      = $request->input('length');
         $start      = $request->input('start');
         $order      = $column[$request->input('order.0.column')];
         $dir        = $request->input('order.0.dir');
-        $temps      = Role::select("id","name","guard_name","id as actions");
+        $temps      = Role::select("id","name","kode_role","id as actions");
         $total      = $temps->count();
         $totalFiltered = $total;
 
         if(empty($request->input('search.value'))){
-            $temp = $temps->offset($start)
+            $bool = $temps->offset($start)
                     ->limit($limit)
                     ->orderBy($order, $dir)
                     ->get();
         }else{
             $search = $request->input('search.value');
-            $temp   = $temps->whereRaw("name LIKE '%$search'")
+            $bool   = $temps->whereRaw("name LIKE '%$search%'")
                       ->orderBy($order,$dir)
                       ->get();
-            $total  = $temps->whereRaw("name LIKE '%$search'")->count();
+            $total  = $temps->whereRaw("name LIKE '%$search%'")->count();
             $totalFiltered = $total;
         }
 
         $data = array();
-        if(!empty($temp)){
-            foreach($temp as $key => $die){
+        if(!empty($bool)){
+            foreach($bool as $key => $die){
                 $obj['name']            = $die->name;
-                $obj['guard_name']      = $die->guard_name;
+                $obj['kode_role']       = $die->kode_role != null ? $die->kode_role : "-";
                 $obj['actions']         = '<a href="javascript:;" data-href="'.route('roles.edit',$die->id).'" class="btn-edit btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="modal" data-target="kt_modal_1"><i class="la la-edit"></i></a>';
                 $data [] = $obj;
             }
@@ -78,7 +79,8 @@ class RoleController extends Controller
     {
         $role  = new Role;
         $role->name = $request->nama;
-        $role->guard_name = 'web';
+        $role->guard_name = "web";
+        $role->kode_role = $request->kode_role;
         $role->save();
         AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." membuat role ".$role->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('roles.index')->with(['success'=>'Role Berhasil Ditambahkan']);
@@ -110,6 +112,7 @@ class RoleController extends Controller
         $roles  = Role::find($id);
         $roles->name = $request->nama;
         $roles->guard_name = 'web';
+        $roles->kode_role = $request->kode_role;
         $roles->save();
         AuditTrail::doLogAudit('Role Maintenance',Auth::user()->name." mengubah role ".$roles->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('roles.index')->with(['success'=>'Role Berhasil Diupdate']);

@@ -36,10 +36,10 @@ class ApprovalController extends Controller
                     ->get();
         }else{
             $search = $request->input('search.value');
-            $temp   = $temps->whereRaw("name LIKE '%$search%' OR username LIKE '%$search%' OR cabang LIKE '%$search%' OR nik LIKE '%$search%'")
+            $temp   = $temps->whereRaw("name LIKE '%$search%' OR username LIKE '%$search%' OR status LIKE '%$search%' OR nik LIKE '%$search%'")
                       ->orderBy($order,$dir)
                       ->get();
-            $total  = $temps->whereRaw("name LIKE '%$search%' OR username LIKE '%$search%' OR cabang LIKE '%$search%' OR nik LIKE '%$search%'")->count();
+            $total  = $temps->whereRaw("name LIKE '%$search%' OR username LIKE '%$search%' OR status LIKE '%$search%' OR nik LIKE '%$search%'")->count();
             $totalFiltered = $total;
         }
 
@@ -104,11 +104,17 @@ class ApprovalController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if($request->submit === "Approved"){
+            $status = "Aktif";
+        }
+        if($request->submit === "Rejected"){
+            $status = "Tidak Aktif";
+        }
         $pengguna =  User::find($id);
-        $pengguna->status = $request->status;
+        $pengguna->status = $status;
         $pengguna->confirmation_status = $request->submit;
         $pengguna->save();
-        AuditTrail::doLogAudit('Approval',Auth::user()->name." ".$request->submit." user ".$pengguna->name,Auth::user()->name,Auth::user()->role);
+        AuditTrail::doLogAudit('Approval',Auth::user()->name." Melakukan ".$request->submit." Dan ".$status." pada user ".$pengguna->name,Auth::user()->name,Auth::user()->role);
         return redirect()->route('approval.index')->with(['success'=>'Pengguna Berhasil '.$request->submit]);
       
     }
@@ -120,4 +126,5 @@ class ApprovalController extends Controller
     {
         //
     }
+  
 }

@@ -107,6 +107,7 @@ class PenggunaController extends Controller
         $pengguna->phone_number = $request->phone_number;
         $pengguna->nik = $request->nik;
         $pengguna->cabang_id = $request->cabang_id;
+        $pengguna->status ="Tidak Aktif";
         $pengguna->role = $request->role;
         $pengguna->generate = $generate;
         $pengguna->removeRole($request->role);
@@ -153,6 +154,7 @@ class PenggunaController extends Controller
         $pengguna->password = $updatepassword;
         $pengguna->phone_number = $request->phone_number;
         $pengguna->nik = $request->nik;
+        $pengguna->status ="Tidak Aktif";
         $pengguna->cabang_id = $request->cabang_id;
         $pengguna->role = $request->role;
         $pengguna->save();
@@ -201,7 +203,7 @@ class PenggunaController extends Controller
             $temp   = $temps->whereRaw("users.name LIKE '%$search%' OR users.username LIKE '%$search%' OR users.nik LIKE '%$search%' OR cabang.nama_cabang LIKE '%$search%' OR users.role LIKE '%$search%'")
                       ->orderBy($order,$dir)
                       ->get();
-            $total  = $temps->whereRaw("users.name LIKE '%$search%' OR users.username LIKE '%$search%'OR users.nik LIKE '%$search%'OR cabang.nama_cabang LIKE '%$search%' OR users.role LIKE '%$search%'")->count();
+            $total  = $temps->whereRaw("users.name LIKE '%$search%' OR users.username LIKE '%$search%' OR users.nik LIKE '%$search%'OR cabang.nama_cabang LIKE '%$search%' OR users.role LIKE '%$search%'")->count();
             $totalFiltered = $total;
         }
 

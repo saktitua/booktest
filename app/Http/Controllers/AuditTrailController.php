@@ -13,7 +13,7 @@ class AuditTrailController extends Controller
     public function index()
     {
         if(Auth()->user()->can('Audit Trails')){
-            return view('auditTrail.index');
+            return view('audittrail.index');
         }else{
             abort(404, 'Page not found');
         }

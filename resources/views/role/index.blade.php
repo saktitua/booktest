@@ -72,8 +72,8 @@
                     name:"name",
                 },
                 {
-                    data:"guard_name",
-                    name:"guard_name",
+                    data:"kode_role",
+                    name:"kode_role",
                 },
                 {
                     data:"actions",

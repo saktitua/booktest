@@ -9,7 +9,7 @@ class AuditTrail extends Model
 {
     use HasFactory;
 
-    protected $table = "audittrail"; 
+    protected $table = "auditTrail"; 
     protected $fillable =[
         'id',
         'menu',

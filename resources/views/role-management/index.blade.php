@@ -32,7 +32,7 @@
                     <tr>
                         <th style="color:white">Nama</th>
                         <th style="color:white">Kode</th>
-                        <th style="color:white">Actions</th>
+                        <th style="color:white">Akses Role</th>
                     </tr>
                 </thead>
                 <tbody>
