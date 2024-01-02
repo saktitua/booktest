@@ -36,10 +36,10 @@ class AuditTrailController extends Controller
                     ->get();
         }else{
             $search = $request->input('search.value');
-            $temp   = $temps->whereRaw("menu LIKE '%$search' OR description LIKE '%$search' OR username LIKE '%$search' OR jenis_layanan LIKE '%$search'")
+            $temp   = $temps->whereRaw("menu LIKE '%$search%' OR description LIKE '%$search%' OR username LIKE '%$search%' OR jenis_layanan LIKE '%$search%'")
                       ->orderBy($order,$dir)
                       ->get();
-            $total  = $temps->whereRaw("menu LIKE '%$search' OR description LIKE '%$search' OR username LIKE '%$search' OR jenis_layanan LIKE '%$search'")->count();
+            $total  = $temps->whereRaw("menu LIKE '%$search%' OR description LIKE '%$search%' OR username LIKE '%$search%' OR jenis_layanan LIKE '%$search%'")->count();
             $totalFiltered = $total;
         }
 

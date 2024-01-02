@@ -49,7 +49,7 @@
                     <i class="kt-menu__section-icon flaticon-more-v2"></i>
                 </li>
                 @can('Menu Admin')
-                <li class="kt-menu__item   kt-menu__item--submenu @if($title == 'Role Maintenance' || $title == 'Role Management' || $title == 'Pengguna' || $title =='Ganti Password Admin' || $title == 'Ganti Password User' || $title=='Cabang' || $title=='Approval'|| $title =='Audit Trail' || $title =='Report') {{"kt-menu__item--active kt-menu__item--open"}} @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                <li class="kt-menu__item   kt-menu__item--submenu @if($title == 'Role Maintenance' || $title == 'Question' || $title == 'Role Management' || $title == 'Pengguna' || $title =='Ganti Password Admin' || $title == 'Ganti Password User' || $title=='Cabang' || $title=='Approval'|| $title =='Audit Trail' || $title =='Report') {{"kt-menu__item--active kt-menu__item--open"}} @endif" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon">
                         <svg width="800px" height="800px" viewBox="0 0 24 24" fill="#1e1e2d" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -102,6 +102,15 @@
                                 </a>
                             </li>
                             @endcan
+
+                            {{-- @can('Create User Approval') --}}
+                            <li class="kt-menu__item @if($title == 'Question') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
+                                <a href="{{route('question.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                    <span></span></i><span class="kt-menu__link-text">Question</span>
+                                </a>
+                            </li>
+                            {{-- @endcan --}}
+
                             @can('Print Report')
                             <li class="kt-menu__item @if($title == 'Report') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('report.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">

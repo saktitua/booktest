@@ -14,7 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GantiPasswordAdmin;
 use App\Http\Controllers\GantiPasswordUser;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\QuestionController;
 
 
 
@@ -37,7 +37,7 @@ use App\Http\Controllers\UserController;
 Route::get('/{generate}',[NasabahController::class, 'index'])->name('nasabah');
 Route::post('/nasabah/store',[NasabahController::class, 'store'])->name('nasabah.store');
 Route::get('check/login/{email}',[UserController::class,'checklogin'])->name('user.check.login');
-
+Route::get('/question/getQuesionId',[NasabahController::class,'getQuesionId'])->name('admin.question.getQuesionId');
 
 
 Route::prefix('admin')->group(function () {
@@ -54,6 +54,10 @@ Route::prefix('admin')->group(function () {
     Route::resource('cabang',CabangController::class)->middleware('auth');
     Route::post('/cabang/ajax',[CabangController::class, 'getAjax'])->name('admin.cabang.ajax')->middleware('auth');
 
+    Route::resource('question',QuestionController::class)->middleware('auth');
+    Route::post('/question/ajax',[QuestionController::class,'getAjax'])->name('admin.question.ajax')->middleware('auth');
+   
+    
     Route::resource('pengguna',PenggunaController::class)->middleware('auth');
     Route::post('/pengguna/ajax',[PenggunaController::class, 'getAjax'])->name('admin.pengguna.ajax')->middleware('auth');
 

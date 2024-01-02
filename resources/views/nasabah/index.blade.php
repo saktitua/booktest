@@ -28,145 +28,47 @@
         </div>
         <form method="POST" action={{route('nasabah.store')}} id="form-nasabah-submit" >
             @csrf
-            <div class="question">
-                <input type="hidden" name="code" value={{$pengguna->generate}}>
-                <div class="question-text">
-                    1. Nama Anda ?
-                    <input type="text" placeholder="Masukkan nama anda" class="form-control" name="nama" id="nama">
+            <input type="hidden" name="code" value={{$pengguna->generate}}>
+            @foreach($question as $key => $die)
+                @if($die->type == 'text')
+                <div class="question">
+                    <div class="question-text">
+                        {{$key + 1}} {{$die->question}}<br>
+                        <div class="pagination">
+                            <input type="text" placeholder="Masukkan nama anda" class="form-control" name="nama" id="nama">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    2. Bagaimana penampilan petugas yang melayani ?
-                    <input type="hidden" name="ques1" class="ques1">
+                @endif
+                @if($die->type == 'radio')
+                <div class="question">
+                    <div class="question-text">
+                        {{$key + 1}}  {{$die->question}}
+                        <input type="text" name="ques{{$die->id}}" class="ques{{$die->id}}">
+                        <div class="pagination">
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="1">1</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="2">2</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="3">3</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="4">4</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="5">5</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="6">6</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="7">7</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="8">8</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="9">9</a>
+                            <a href="javascript:;" class="click_active{{$die->id}}" value="10">10</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active1" value="1">1</a>
-                    <a href="javascript:;" class="click_active1" value="2">2</a>
-                    <a href="javascript:;" class="click_active1" value="3">3</a>
-                    <a href="javascript:;" class="click_active1" value="4">4</a>
-                    <a href="javascript:;" class="click_active1" value="5">5</a>
-                    <a href="javascript:;" class="click_active1" value="6">6</a>
-                    <a href="javascript:;" class="click_active1" value="7">7</a>
-                    <a href="javascript:;" class="click_active1" value="8">8</a>
-                    <a href="javascript:;" class="click_active1" value="9">9</a>
-                    <a href="javascript:;" class="click_active1" value="10">10</a>
+                @endif
+                @if($die->type == 'textarea')
+                <div class="question">
+                    <div class="question-text">
+                        {{$key + 1}}  {{$die->question}} <br>
+                        <textarea placeholder="Masukkan kritik dan saran anda" class="form-control" style="height:130px" name="reason" id="reason"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    3. Bagaimana kecepatan petugas yang melayani ?
-                    <input type="hidden" name="ques2" class="ques2">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active2" value="1">1</a>
-                    <a href="javascript:;" class="click_active2" value="2">2</a>
-                    <a href="javascript:;" class="click_active2" value="3">3</a>
-                    <a href="javascript:;" class="click_active2" value="4">4</a>
-                    <a href="javascript:;" class="click_active2" value="5">5</a>
-                    <a href="javascript:;" class="click_active2" value="6">6</a>
-                    <a href="javascript:;" class="click_active2" value="7">7</a>
-                    <a href="javascript:;" class="click_active2" value="8">8</a>
-                    <a href="javascript:;" class="click_active2" value="9">9</a>
-                    <a href="javascript:;" class="click_active2" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    4. Bagaimana kepuasan nasabah terhadap pelayanan kami ?
-                    <input type="hidden" name="ques3" class="ques3">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active3" value="1">1</a>
-                    <a href="javascript:;" class="click_active3" value="2">2</a>
-                    <a href="javascript:;" class="click_active3" value="3">3</a>
-                    <a href="javascript:;" class="click_active3" value="4">4</a>
-                    <a href="javascript:;" class="click_active3" value="5">5</a>
-                    <a href="javascript:;" class="click_active3" value="6">6</a>
-                    <a href="javascript:;" class="click_active3" value="7">7</a>
-                    <a href="javascript:;" class="click_active3" value="8">8</a>
-                    <a href="javascript:;" class="click_active3" value="9">9</a>
-                    <a href="javascript:;" class="click_active3" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    5. Bagaimana kualitas penyambutan oleh security cabang kami ?
-                    <input type="hidden" name="ques4" class="ques4">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active4" value="1">1</a>
-                    <a href="javascript:;" class="click_active4" value="2">2</a>
-                    <a href="javascript:;" class="click_active4" value="3">3</a>
-                    <a href="javascript:;" class="click_active4" value="4">4</a>
-                    <a href="javascript:;" class="click_active4" value="5">5</a>
-                    <a href="javascript:;" class="click_active4" value="6">6</a>
-                    <a href="javascript:;" class="click_active4" value="7">7</a>
-                    <a href="javascript:;" class="click_active4" value="8">8</a>
-                    <a href="javascript:;" class="click_active4" value="9">9</a>
-                    <a href="javascript:;" class="click_active4" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    6. Bagaimana keramahan petugas yang melayani ?
-                    <input type="hidden" name="ques5" class="ques5">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active5" value="1">1</a>
-                    <a href="javascript:;" class="click_active5" value="2">2</a>
-                    <a href="javascript:;" class="click_active5" value="3">3</a>
-                    <a href="javascript:;" class="click_active5" value="4">4</a>
-                    <a href="javascript:;" class="click_active5" value="5">5</a>
-                    <a href="javascript:;" class="click_active5" value="6">6</a>
-                    <a href="javascript:;" class="click_active5" value="7">7</a>
-                    <a href="javascript:;" class="click_active5" value="8">8</a>
-                    <a href="javascript:;" class="click_active5" value="9">9</a>
-                    <a href="javascript:;" class="click_active5" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    7. Bagaimana pengetahuan petugas yang melayani ?
-                    <input type="hidden" name="ques6" class="ques6">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active6" value="1">1</a>
-                    <a href="javascript:;" class="click_active6" value="2">2</a>
-                    <a href="javascript:;" class="click_active6" value="3">3</a>
-                    <a href="javascript:;" class="click_active6" value="4">4</a>
-                    <a href="javascript:;" class="click_active6" value="5">5</a>
-                    <a href="javascript:;" class="click_active6" value="6">6</a>
-                    <a href="javascript:;" class="click_active6" value="7">7</a>
-                    <a href="javascript:;" class="click_active6" value="8">8</a>
-                    <a href="javascript:;" class="click_active6" value="9">9</a>
-                    <a href="javascript:;" class="click_active6" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    8. Bagaimana ruang banking hall ?
-                    <input type="hidden" name="ques7" class="ques7">
-                </div>
-                <div class="pagination">
-                    <a href="javascript:;" class="click_active7" value="1">1</a>
-                    <a href="javascript:;" class="click_active7" value="2">2</a>
-                    <a href="javascript:;" class="click_active7" value="3">3</a>
-                    <a href="javascript:;" class="click_active7" value="4">4</a>
-                    <a href="javascript:;" class="click_active7" value="5">5</a>
-                    <a href="javascript:;" class="click_active7" value="6">6</a>
-                    <a href="javascript:;" class="click_active7" value="7">7</a>
-                    <a href="javascript:;" class="click_active7" value="8">8</a>
-                    <a href="javascript:;" class="click_active7" value="9">9</a>
-                    <a href="javascript:;" class="click_active7" value="10">10</a>
-                </div>
-            </div>
-            <div class="question">
-                <div class="question-text">
-                    9. Kritik dan Saran
-                    <textarea placeholder="Masukkan kritik dan saran  anda" class="form-control" style="height:130px" name="reason" id="reason"></textarea>
-                </div>
-            </div>
+                @endif
+            @endforeach
             <br>
         </form>
         <div class="question">
@@ -178,44 +80,27 @@
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="/client/client.js"></script>
         <script src="/client/sweatAlert.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script>
-            $(function(){
-                $(document).on('click','.click_active1',function(){
-                    $('.click_active1').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques1').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active2',function(){
-                    $('.click_active2').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques2').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active3',function(){
-                    $('.click_active3').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques3').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active4',function(){
-                    $('.click_active4').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques4').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active5',function(){
-                    $('.click_active5').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques5').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active6',function(){
-                    $('.click_active6').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques6').val($(this).attr('value'));
-                });
-                $(document).on('click','.click_active7',function(){
-                    $('.click_active7').removeClass('active')
-                    $(this).addClass('active');
-                    $('.ques7').val($(this).attr('value'));
-                });
-            });
+              $(function(){
+                runNavigation();
+                function runNavigation(){
+                    $.ajax({
+                        type: 'GET', 
+                        url: '{{route("admin.question.getQuesionId")}}',
+                        success: function (data){
+                            $.each(data.question, function( key, value ){
+                                $(document).on('click','.click_active'+value.id,function(){
+                                    $('.click_active'+value.id).removeClass('active')
+                                    $(this).addClass('active');
+                                    $('.ques'+value.id).val($(this).attr('value'));
+                                });
+                            }); 
+                        }
+                    });
+                    
+                }
+              });
         </script>
         	@if(\Session::has('success'))
 			<div class="alert-text-success">{{\Session::get('success')}}</div>

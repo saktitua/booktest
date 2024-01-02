@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Report;
 use App\Models\Role;
 use App\Models\AuditTrail;
-
+use App\Models\Question;
 class NasabahController extends Controller
 {
     /**
@@ -16,7 +16,8 @@ class NasabahController extends Controller
     public function index($generate)
     {
         $pengguna =  User::where('generate',$generate)->first();
-        return view('nasabah.index',compact('pengguna'));
+        $question =  Question::all();
+        return view('nasabah.index',compact('pengguna','question'));
     }
 
     /**
@@ -53,6 +54,11 @@ class NasabahController extends Controller
         AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');
         return redirect()->back()->with(['success'=>'']);
 
+    }
+
+    public function getQuesionId(){
+        $question = Question::all();
+        return response()->json(['question'=>$question]);
     }
 
     /**

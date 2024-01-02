@@ -5,6 +5,7 @@
 <div class="modal-body">
         <div class="row">
             <div class="col-lg-12 text-center">
+                {{env('BARCODE_URL').$pengguna->generate}}
                @if($pengguna->generate !== null)
                 {!! QrCode::size(300)->generate(env('BARCODE_URL').$pengguna->generate) !!}
                 @else 
