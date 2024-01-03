@@ -16,7 +16,7 @@ class AksesAdminSeeder extends Seeder
     public function run(): void
     {
         $role = Role::findByName('admin');
-        $role->syncPermissions(['Menu Admin', 'Role Maintenance','Role Management','Cabang','Create User','Print Report','Ganti Password Admin','Audit Trails','Menu User','Print QR']);
+        $role->syncPermissions(['Menu Admin', 'Role Maintenance','Role Management','Cabang','Create User','Print Report','Question','Ganti Password Admin','Audit Trails','Menu User','Print QR']);
         $user = User::where('username','admin')->first();
         $user->assignRole('admin');
         Artisan::call('cache:clear');

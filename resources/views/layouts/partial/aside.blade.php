@@ -103,13 +103,13 @@
                             </li>
                             @endcan
 
-                            {{-- @can('Create User Approval') --}}
+                            @can('Question')
                             <li class="kt-menu__item @if($title == 'Question') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">
                                 <a href="{{route('question.index')}}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span></i><span class="kt-menu__link-text">Question</span>
                                 </a>
                             </li>
-                            {{-- @endcan --}}
+                            @endcan
 
                             @can('Print Report')
                             <li class="kt-menu__item @if($title == 'Report') {{"kt-menu__item--active "}} @endif" aria-haspopup="true">

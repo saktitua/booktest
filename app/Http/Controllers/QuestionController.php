@@ -85,7 +85,7 @@ class QuestionController extends Controller
     {
         $question = new Question;
         $question->question = $request->question;
-        $question->type = $request->type;
+        $question->type = 'radio';
         $question->save();
         return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di tambahkan']);
     }
@@ -115,7 +115,7 @@ class QuestionController extends Controller
     {
         $question = Question::find($id);
         $question->question = $request->question;
-        $question->type = $request->type;
+        $question->type = 'radio';
         $question->save();
         return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
     }

@@ -26,6 +26,7 @@ class PermissionSeeder extends Seeder
             array('id' => '11','name' => 'Edit Action','guard_name' => 'web','created_at' => date('Y-m-d h:i:s'),'updated_at' => date('Y-m-d h:i:s')),
             array('id' => '12','name' => 'Print QR','guard_name' => 'web','created_at' => date('Y-m-d h:i:s'),'updated_at' => date('Y-m-d h:i:s')),
             array('id' => '13','name' => 'Ganti Password User','guard_name' => 'web','created_at' => date('Y-m-d h:i:s'),'updated_at' => date('Y-m-d h:i:s')),
+            array('id' => '14','name' => 'Question','guard_name' => 'web','created_at' => date('Y-m-d h:i:s'),'updated_at' => date('Y-m-d h:i:s')),
         );  
         DB::table("permissions")->insert($permission); 
     }

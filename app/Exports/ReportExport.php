@@ -25,7 +25,7 @@ class ReportExport implements FromView,WithEvents,WithHeadings
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
         ->join('users','report.user_id','=','users.id')
         ->join('roles','report.role_id','=','roles.id')
-        ->select("cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.ques1","report.ques2","report.ques3","report.ques4","report.ques5","report.ques6","report.ques7","report.reason","report.created_at","report.id as actions")
+        ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
         ->whereBetween('report.date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])
         ->get();
         return view('report.excel', [

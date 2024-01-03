@@ -29,22 +29,21 @@
         <form method="POST" action={{route('nasabah.store')}} id="form-nasabah-submit" >
             @csrf
             <input type="hidden" name="code" value={{$pengguna->generate}}>
-            @foreach($question as $key => $die)
-                @if($die->type == 'text')
-                <div class="question">
-                    <div class="question-text">
-                        {{$key + 1}} {{$die->question}}<br>
-                        <div class="pagination">
-                            <input type="text" placeholder="Masukkan nama anda" class="form-control" name="nama" id="nama">
-                        </div>
+            <div class="question">
+                <div class="question-text">
+                    Nama Nasabah<br>
+                    <div class="pagination">
+                        <input type="text"  name="nama_nasabah">
                     </div>
                 </div>
-                @endif
+            </div>
+            @foreach($question as $key => $die)
                 @if($die->type == 'radio')
                 <div class="question">
                     <div class="question-text">
                         {{$key + 1}}  {{$die->question}}
-                        <input type="text" name="ques{{$die->id}}" class="ques{{$die->id}}">
+                        <input type="hidden" name="question[{{$die->id}}]" value="{{$die->question}}" class="quess{{$die->id}}" required>
+                        <input type="hidden" name="ques[{{$die->id}}]" class="ques{{$die->id}}" required>
                         <div class="pagination">
                             <a href="javascript:;" class="click_active{{$die->id}}" value="1">1</a>
                             <a href="javascript:;" class="click_active{{$die->id}}" value="2">2</a>
@@ -60,23 +59,20 @@
                     </div>
                 </div>
                 @endif
-                @if($die->type == 'textarea')
-                <div class="question">
-                    <div class="question-text">
-                        {{$key + 1}}  {{$die->question}} <br>
-                        <textarea placeholder="Masukkan kritik dan saran anda" class="form-control" style="height:130px" name="reason" id="reason"></textarea>
-                    </div>
-                </div>
-                @endif
             @endforeach
             <br>
+            <div class="question">
+                <div class="question-text">
+                     Kritik Dan Saran <br>
+                    <textarea placeholder="Masukkan kritik dan saran anda" style="height:130px;width:300px;" name="kritik_saran" id="kritik_saran"></textarea>
+                </div>
+            </div>
         </form>
         <div class="question">
             <div class="question-text">
-                <button type="submit" form="form-nasabah-submit"  class="button">submit</button>
+                <button type="submit" form="form-nasabah-submit" class="button btn-submit">submit</button>
             </div>
         </div>
-      
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="/client/client.js"></script>
         <script src="/client/sweatAlert.js"></script>
@@ -94,6 +90,18 @@
                                     $('.click_active'+value.id).removeClass('active')
                                     $(this).addClass('active');
                                     $('.ques'+value.id).val($(this).attr('value'));
+                                });
+                                $(document).on('click','.btn-submit',function(e){
+                           
+                                    if($('.ques'+value.id).val() == ''){
+                                        e.preventDefault();
+                                        var alertSuccess = $('.alert-text-success').html();
+                                        Swal.fire(
+                                            'Peringatan',
+                                            'jawaban point wajib di isi',
+                                            'danger'
+                                        )
+                                    }
                                 });
                             }); 
                         }

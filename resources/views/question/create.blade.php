@@ -12,7 +12,7 @@
                     <input type="text" required class="form-control" autocomplete="off" name="question" placeholder="Silahkan masukkan pertanyaan" required>
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label>Jenis jawaban</label>
                     <select name="type" id="type" class="form-control" required>
                         <option value="" selected>Pilih Type</option>
@@ -20,7 +20,7 @@
                         <option value="radio">Radio</option>
                         <option value="textarea">Text Area</option>
                     </select>
-                </div>
+                </div> --}}
             </div>
         </div>
     </form>

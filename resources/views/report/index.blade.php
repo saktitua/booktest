@@ -70,20 +70,14 @@
                         <th style="color:white">Jenis Layanan</th>
                         <th style="color:white">Nama Petugas</th>
                         <th style="color:white">Nama Nasabah</th>
-                        <th style="color:white">Bagaimana penampilan petugas yang melayani</th>
-                        <th style="color:white">Bagaimana kecepatan petugas yang melayani</th>
-                        <th style="color:white">Bagaimana kepuasan nasabah terhadap pelayanan kami </th>
-                        <th style="color:white">Bagaimana kualitas penyambutan oleh security cabang kami</th>    
-                        <th style="color:white">Bagaimana keramahan petugas yang melayani</th>
-                        <th style="color:white">Bagaimana pengetahuan petugas yang melayani</th>
-                        <th style="color:white">Bagaimana ruang banking hall</th>
-                        <th style="color:white">Kritik dan Saran</th>
+                        <th style="color:white">Kritik Dan Saran</th>
                         <th style="color:white">Tanggal</th>
+                        <th style="color:white">Total Point Dari Semua Pertanyaan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="13"></td>
+                        <td colspan="6"></td>
                     </tr>
                 </tbody>
             </table>
@@ -146,40 +140,16 @@
                         name:"nama_nasabah",
                     },
                     {
-                        data:"ques1",
-                        name:"ques1",
-                    },
-                    {
-                        data:"ques2",
-                        name:"ques2",
-                    },
-                    {
-                        data:"ques3",
-                        name:"ques3",
-                    },
-                    {
-                        data:"ques4",
-                        name:"ques4",
-                    },
-                    {
-                        data:"ques5",
-                        name:"ques5",
-                    },
-                    {
-                        data:"ques6",
-                        name:"ques6",
-                    },
-                    {
-                        data:"ques7",
-                        name:"ques7",
-                    },
-                    {
                         data:"reason",
                         name:"reason",
                     },
                     {
                         data:"created_at",
                         name:"created_at",
+                    },
+                    {
+                        data:"total_point",
+                        name:"total_point",
                     },
                 ]
             });
@@ -192,6 +162,20 @@
             $('input[name="to"]').val('');
             $('input[name="start"]').val('');
             $('input[name="end"]').val('');
+        });
+
+        $(document).on('click','.btn-report-detail',function(e){
+            e.preventDefault();
+            const href= $(this).attr('data-href');
+            console.log(href);
+            $.ajax({
+                url: href,
+                success: function(result){
+                    $('#kt_modal_1').modal('show');
+                    $('#modalContent').html(result).show();
+                    $('.modal-dialog').addClass('modal-lg');
+                }
+            });
         });
     });
     

@@ -8,6 +8,7 @@ use App\Models\Report;
 use App\Models\Role;
 use App\Models\AuditTrail;
 use App\Models\Question;
+use App\Models\DetailReport;
 class NasabahController extends Controller
 {
     /**
@@ -39,18 +40,20 @@ class NasabahController extends Controller
         $report->user_id    = $pengguna->id;
         $report->role_id    = $role->id;
         $report->cabang_id  = $pengguna->cabang_id;
-        $report->nama       = $request->nama ?? 'Anonim';
-        $report->ques1      = $request->ques1 ?? 0 ;
-        $report->ques2      = $request->ques2 ?? 0 ;
-        $report->ques3      = $request->ques3 ?? 0 ;
-        $report->ques4      = $request->ques4 ?? 0 ;
-        $report->ques5      = $request->ques5 ?? 0 ;
-        $report->ques5      = $request->ques5 ?? 0 ;
-        $report->ques6      = $request->ques6 ?? 0 ;
-        $report->ques7      = $request->ques7 ?? 0 ;
-        $report->reason     = $request->reason ?? '-';
+        $report->nama       = $request->nama_nasabah ?? 'Anonim';
+        $report->reason     = $request->kritik_saran ?? '-';
         $report->date       = date("Y-m-d");
         $report->save();
+
+        $question =Question::all();
+        foreach($question as $key => $die){
+            $reportdetail = new DetailReport;
+            $reportdetail->report_id = $report->id;
+            $reportdetail->question  = $request->question[$die->id];
+            $reportdetail->point     = $request->ques[$die->id];
+            $reportdetail->save();
+          
+        }
         AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');
         return redirect()->back()->with(['success'=>'']);
 

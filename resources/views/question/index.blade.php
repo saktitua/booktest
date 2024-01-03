@@ -35,7 +35,6 @@
                 <thead style="background-color:#1e1e2d;color:white">
                     <tr>
                         <th style="color:white">Question</th>
-                        <th style="color:white">Jenis Jawaban</th>
                         <th style="color:white">Action</th>
                     </tr>
                 </thead>
@@ -70,10 +69,6 @@
                 {
                     data:"question",
                     name:"question",
-                },
-                {
-                    data:"type",
-                    name:"type",
                 },
                 {
                     data:"actions",
