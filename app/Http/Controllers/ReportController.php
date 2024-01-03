@@ -9,6 +9,7 @@ use PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
 use App\Models\DetailReport;
+use App\Models\Question;
 class ReportController extends Controller
 {
     /**
@@ -93,10 +94,11 @@ class ReportController extends Controller
         ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
         ->whereBetween('report.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])
         ->get();
+        $question = Question::all();
        if($request->submit ==='pdf'){
-           
             $payStub= new PDF();
-            $pdf = $payStub::loadView('report.pdf',compact('temp'),[],['title'=>"Report Data Survei"]);
+            $customPaper = array(0,0,720,1440);
+            $pdf = $payStub::loadView('report.pdf',compact('temp','question'),[],['title'=>"Report Data Survei"]);
             return $pdf->stream('report.pdf');
        }else if($request->submit ==='excel'){
             return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei.xlsx');
@@ -130,6 +132,7 @@ class ReportController extends Controller
         ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at")
         ->where('report.id',$id)->first();
         $detailreport = DetailReport::where('report_id',$id)->get();
+
         return view('report.show',compact('detailreport','temp'));
     }
 

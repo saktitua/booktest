@@ -9,30 +9,26 @@
 <table>
     <thead>
         <tr>
-            <th>No</th>
-            <th>Cabang</th>
-            <th>Jenis Layanan</th>
-            <th>Nama Petugas</th>
-            <th>Nama Nasabah</th>
-            <th>Kritik dan Saran</th>
             <th>Tanggal</th>
-            <th>Total Point Dari Semua Pertanyaan</th>
+            <th>Petugas</th>
+            <th>Nasabah</th>
+            @foreach($question as $die)
+            <th>{{$die->question}}</th>
+            @endforeach
         </tr>
     </thead>
     <tbody>
         @foreach($temp as $key => $die)
         @php 
-        $totalpoint = App\Models\DetailReport::where('report_id',$die->id)->sum('point');
+        $detailReport = App\Models\DetailReport::join('question','report_detail.question','=','question.question')->where('report_id',$die->id)->get();
         @endphp
         <tr>
-            <td class="f-size-table" style="text-align: center;height:30px;">{{$key + 1}}</td>
-            <td class="f-size-table" style="text-align: center;height:30px;">{!!$die->nama_cabang!!}</td>
-            <td class="f-size-table" style="text-align: center;height:30px;">{!!$die->jenis_layanan!!}</td>
+            <td class="f-size-table" style="text-align: center;height:30px;">@if(date('m/d/Y',strtotime($die->created_at)) <1) {{date('m/d/Y',strtotime($die->created_at))}} @endif</td>
             <td class="f-size-table" style="text-align: center;height:30px;">{!!$die->nama_petugas!!}</td>
             <td class="f-size-table" style="text-align: center;height:30px;">{!!$die->nama_nasabah!!}</td>
-            <td class="f-size-table" style="text-align: center;height:30px;">{{$die->reason}}</td>
-            <td class="f-size-table" style="text-align: center;height:30px;">{{date('m/d/Y',strtotime($die->created_at)); }}</td>
-            <td class="f-size-table" style="text-align: center;height:30px;">{{$totalpoint }}</td>
+            @foreach($detailReport as $dies)
+            <td class="f-size-table" style="text-align: left;width:40px;">{{$dies->point}}</td>
+            @endforeach
         </tr>
         @endforeach
     </tbody>
