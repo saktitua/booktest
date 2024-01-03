@@ -33,7 +33,7 @@
                             </label>
                             @endif
                             <div class="kt-checkbox-list ml-5 mt-3">
-                                @if($die->name === 'Role Maintenance' || $die->name ==='Role Management' || $die->name ==='Cabang' || $die->name ==='Create User' || $die->name ==='Create User Approval' || $die->name ==='Print Report'  || $die->name ==='Ganti Password Admin'  || $die->name ==='Audit Trails')
+                                @if($die->name === 'Role Maintenance' || $die->name ==='Role Management' || $die->name ==='Cabang' || $die->name ==='Create User' || $die->name ==='Create User Approval' || $die->name ==='Print Report'  || $die->name ==='Question' || $die->name ==='Ganti Password Admin'  || $die->name ==='Audit Trails')
                                 <label class="kt-checkbox">
                                     <input type="checkbox" value="{{$die->name}}" @if(isset($rolehaspermission->permission_id)) {{"checked"}} @endif name="checkboxArray[]"> {{$die->name}}
                                     <span></span>

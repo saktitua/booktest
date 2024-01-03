@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AksesAdminSeeder::class,
             AksesCustomerSeeder::class,
             AksesSupervisorSeeder::class,
+            QuestionSeeder::class,
         ]);
     }
 }
