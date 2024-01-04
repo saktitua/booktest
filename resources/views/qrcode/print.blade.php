@@ -24,7 +24,7 @@
         </div>
         <div class="content-barcode">
             @if($pengguna->generate !== null)
-            {!! QrCode::size(350)->generate(env('DEV_URL').$pengguna->generate)!!}
+            {!! QrCode::size(350)->generate(env('BARCODE_URL').$pengguna->generate)!!}
             @else 
                 {{"Tidak ada barcode"}}
             @endif

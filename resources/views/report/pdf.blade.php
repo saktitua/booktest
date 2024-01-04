@@ -11,10 +11,10 @@
             font-size: 11px;
         }
         .f-size-table-header{
-            font-size: 9px;
+            font-size: 7px;
         }
         .f-size-table{
-            font-size: 9px;
+            font-size: 7px;
         }
         .inline-p{
             bottom: 12px;
@@ -41,6 +41,9 @@
             <thead>
                 <tr>
                     <th class="f-size-table-header f-bold" style="text-align: center;width:40px;">Tanggal</th>
+                    <th class="f-size-table-header f-bold" style="text-align: center;width:70px;">Cabang</th>
+                    <th class="f-size-table-header f-bold" style="text-align: center;width:70px;">Kritik & Saran</th>
+                    <th class="f-size-table-header f-bold" style="text-align: center;width:70px;">Jenis Layanan</th>
                     <th class="f-size-table-header f-bold" style="text-align: center;width:70px;">Petugas</th>
                     <th class="f-size-table-header f-bold" style="text-align: center;width:70px;">Nasabah</th>
                     @foreach($question as $die)
@@ -55,10 +58,18 @@
             @endphp
             <tr>
                 <td class="f-size-table" style="text-align: left;width:40px;">{{date('m/d/Y',strtotime($die->created_at)); }}</td>
+                <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->nama_cabang!!}</td>
+                <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->reason!!}</td>
+                <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->jenis_layanan!!}</td>
                 <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->nama_petugas!!}</td>
                 <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->nama_nasabah!!}</td>
                 @foreach($detailReport as $dies)
+                @if(!isset($dies->question))
+                <td class="f-size-table" style="text-align: left;width:40px;">0</td>
+                @else 
                 <td class="f-size-table" style="text-align: left;width:40px;">{{$dies->point}}</td>
+                @endif
+                
                 @endforeach
             </tr>
             @endforeach

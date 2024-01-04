@@ -6,7 +6,7 @@
     <form action="{{route('cabang.store')}}" id="create-form" method="POST">
         @csrf
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="form-group">
                     <label>kode Cabang</label>
                     <input type="text" required class="form-control" autocomplete="off" name="kode_cabang" placeholder="Silahkan masukkan kode cabang">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group-group">
                     <label>Alamat</label>
-                    <textarea  required class="form-control" autocomplete="off" name="alamat" placeholder="Silahkan masukkan alamat"></textarea>
+                    <textarea  required class="form-control" autocomplete="off" rows="5" name="alamat" placeholder="Silahkan masukkan alamat"></textarea>
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
             </div>

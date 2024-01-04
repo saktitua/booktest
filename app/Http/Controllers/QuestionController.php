@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use DB;
 
 class QuestionController extends Controller
 {
@@ -27,7 +28,7 @@ class QuestionController extends Controller
         $order      = $column[$request->input('order.0.column')];
         $dir        = $request->input('order.0.dir');
         $temp       = Question::select("id","question","type","id as actions");
-        $total      = $temp->count();
+        $total      = $temp->where('is_edit',0)->where('is_delete',0)->count();
         $totalFiltered = $total;
 
         if(empty($request->input('search.value'))){
@@ -114,10 +115,40 @@ class QuestionController extends Controller
     public function update(Request $request, string $id)
     {
         $question = Question::find($id);
-        $question->question = $request->question;
-        $question->type = 'radio';
-        $question->save();
-        return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
+        if($question->question != $request->question){
+                   
+            // cek question lama
+            $check = DB::table("question")->where('question',$request->question)->exists();
+            if($check == false){
+                $insert = new Question;
+                $insert->question = $request->question;
+                $insert->type = 'radio';
+                $insert->save();
+
+                $is_edit = Question::find($id);
+                $is_edit->is_edit = 1;
+                $is_edit->save();
+            }
+
+            if($check == true){
+                $old = Question::where('question',$request->question)->first();
+                $old->is_edit =0;
+                $old->save();
+
+                $is_edit = Question::find($id);
+                $is_edit->is_edit = 1;
+                $is_edit->save();
+                
+            }
+            return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
+        }else{
+            $question->question = $request->question;
+            $question->type = 'radio';
+            $question->save();
+            return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
+        
+        }
+    
     }
 
     /**
@@ -126,7 +157,8 @@ class QuestionController extends Controller
     public function destroy(string $id)
     {
         $question = Question::find($id);
-        $question->delete();
+        $question->is_delete =1;
+        $question->save();
         return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di hapus']);
 
     }

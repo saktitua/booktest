@@ -89,7 +89,7 @@ class ReportController extends Controller
 
     public function export(request $request){
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
-        ->join('users','report.user_id','=','users.id')
+        ->leftjoin('users','report.user_id','=','users.id')
         ->join('roles','report.role_id','=','roles.id')
         ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
         ->whereBetween('report.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])

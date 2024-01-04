@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('question', function (Blueprint $table) {
             $table->id();
             $table->string('question');
+            $table->integer('is_edit')->default(0);
+            $table->integer('is_delete')->default(0);
             $table->string('type');
             // $table->string('point_1');
             // $table->string('point_2');

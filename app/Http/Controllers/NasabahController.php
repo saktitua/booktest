@@ -17,7 +17,7 @@ class NasabahController extends Controller
     public function index($generate)
     {
         $pengguna =  User::where('generate',$generate)->first();
-        $question =  Question::all();
+        $question =  Question::where('is_edit',0)->where('is_delete',0)->get();
         return view('nasabah.index',compact('pengguna','question'));
     }
 
@@ -45,13 +45,23 @@ class NasabahController extends Controller
         $report->date       = date("Y-m-d");
         $report->save();
 
-        $question =Question::all();
+        $question =  Question::all();
         foreach($question as $key => $die){
-            $reportdetail = new DetailReport;
-            $reportdetail->report_id = $report->id;
-            $reportdetail->question  = $request->question[$die->id];
-            $reportdetail->point     = $request->ques[$die->id];
-            $reportdetail->save();
+            if($die->is_edit  != 0 || $die->is_delete != 0){
+                $reportdetail = new DetailReport;
+                $reportdetail->report_id = $report->id;
+                $reportdetail->question  = $die->question;
+                $reportdetail->point     = "";
+                $reportdetail->save();
+            }else{
+                $reportdetail = new DetailReport;
+                $reportdetail->report_id = $report->id;
+                $reportdetail->question  = $request->question[$die->id];
+                $reportdetail->point     = isset($request->question[$die->id]) ? $request->ques[$die->id] : 0;
+                $reportdetail->save();
+            }
+      
+          
           
         }
         AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');

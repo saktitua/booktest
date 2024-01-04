@@ -7,7 +7,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="form-group">
                     <label>Nama Cabang</label>
                     <input type="text" required class="form-control" autocomplete="off" value="{{$cabang->kode_cabang}}" name="kode_cabang" placeholder="Silahkan masukkan kode cabang">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group">
                     <label>Alamat</label>
-                    <textarea  required class="form-control" autocomplete="off" name="alamat" placeholder="Silahkan masukkan alamat">{!!$cabang->nama_cabang!!}</textarea>
+                    <textarea  required class="form-control" autocomplete="off" name="alamat" rows="5" placeholder="Silahkan masukkan alamat">{!!$cabang->alamat!!}</textarea>
                     <span class="form-text text-muted">silahkan di isi</span>
                 </div>
             </div>
