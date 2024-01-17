@@ -46,7 +46,7 @@
                 <td>{{$die->point}}</td>
             </tr>
            @php 
-            $total += $die->point;
+            $total += (int)$die->point;
            @endphp
             @endforeach
         </tbody>

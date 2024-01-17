@@ -100,47 +100,57 @@ var KTLoginV1 = function () {
 			// console.log(emails)
 			$.get("check/login/"+emails, function(data, status){
 				console.log(data.success,data);
+				if(data.success == null){
+					swal.fire({
+						position:"text-center",
+						type:"error",
+						title:'username dan password tidak cocok',
+						showConfirmButton:false,
+						timer:15000,
+					});
+					return false
+				}
 				if(data.success == false){
 					swal.fire({
 						position:"text-center",
 						type:"error",
-						title:'Akun anda tidak aktif. Silahkan konfirmasi ke pihak admin.',
+						title:'Akun Anda Tidak akitf. Silahkan hubungi admin',
 						showConfirmButton:false,
 						timer:15000,
 					});
+					return false
+				}
 
-				}else{
-
-					form.ajaxSubmit({
-						headers: {
-							'X-CSRF-Token': '{{ csrf_token() }}',
-						},
-						method:'POST',
-						url: "{{ route('admin.login') }}",
-						success: function (response, status, xhr, $form) {
-							// similate 2s delay
-							setTimeout(function () {
-								swal.fire({
-									position:"text-center",
-									type:"success",
-									title:'sukses login',
-									showConfirmButton:false,
-									timer:15000,
-								});
-								location.reload();
-							}, 2000);
-						},error:function(e){
+				form.ajaxSubmit({
+					headers: {
+						'X-CSRF-Token': '{{ csrf_token() }}',
+					},
+					method:'POST',
+					url: "{{ route('admin.login') }}",
+					success: function (response, status, xhr, $form) {
+						setTimeout(function () {
 							swal.fire({
 								position:"text-center",
-								type:"error",
-								title:'username dan password tidak cocok',
+								type:"success",
+								title:'sukses login',
 								showConfirmButton:false,
 								timer:15000,
 							});
-						}
-					});
-
-				}
+							location.reload();
+						}, 2000);
+					},
+					error:function(e){
+						swal.fire({
+							position:"text-center",
+							type:"error",
+							title:'username dan password tidak cocok',
+							showConfirmButton:false,
+							timer:15000,
+						});
+					}
+				});
+				
+	
 			});
 
 			

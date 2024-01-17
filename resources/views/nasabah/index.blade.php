@@ -92,7 +92,6 @@
                                     $('.ques'+value.id).val($(this).attr('value'));
                                 });
                                 $(document).on('click','.btn-submit',function(e){
-                           
                                     if($('.ques'+value.id).val() == ''){
                                         e.preventDefault();
                                         var alertSuccess = $('.alert-text-success').html();

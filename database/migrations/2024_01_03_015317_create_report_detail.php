@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('report_id');
             $table->text('question')->nullable();
             $table->string('point')->default('0')->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
         });
     }

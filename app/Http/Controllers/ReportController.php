@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
 use App\Models\DetailReport;
 use App\Models\Question;
+use DB;
 class ReportController extends Controller
 {
     /**
@@ -88,21 +89,26 @@ class ReportController extends Controller
     }
 
     public function export(request $request){
+        $question = DetailReport::select('question','point')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->groupBy('question')->get();
+    
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
-        ->leftjoin('users','report.user_id','=','users.id')
+        ->join('users','report.user_id','=','users.id')
         ->join('roles','report.role_id','=','roles.id')
         ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
         ->whereBetween('report.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])
         ->get();
-        $question = Question::all();
-       if($request->submit ==='pdf'){
+
+        $from = $request->from_date;
+        $to   = $request->to_date;
+
+        if($request->submit ==='pdf'){
             $payStub= new PDF();
             $customPaper = array(0,0,720,1440);
-            $pdf = $payStub::loadView('report.pdf',compact('temp','question'),[],['title'=>"Report Data Survei"]);
+            $pdf = $payStub::loadView('report.pdf',compact('temp','question','from','to'),[],['title'=>"Report Data Survei"]);
             return $pdf->stream('report.pdf');
-       }else if($request->submit ==='excel'){
-            return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei.xlsx');
-       }
+        }else if($request->submit ==='excel'){
+            return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei- '.date('d F Y',strtotime($request->from_date)).' Sd '.date('d F Y',strtotime($request->to_date)).'.xlsx');
+        }
     }
 
     /**

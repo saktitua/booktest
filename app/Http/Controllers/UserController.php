@@ -68,15 +68,19 @@ class UserController extends Controller
      */
      public function checklogin($email){
         $check = User::where('email',$email)->first();
+
+        if($check == null){
+            return response()->json([
+                "success"=>$check
+            ]);
+        }
         if($check->status === "Tidak Aktif"){
             return response()->json([
                 "success"=>false
             ]);
         }
-        if($check->status === "Aktif"){
-            return response()->json([
-                "success"=>true
-            ]);
-        }
+        return response()->json([
+            "success"=>true
+        ]);        
      }
 }

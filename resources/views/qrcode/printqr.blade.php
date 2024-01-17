@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title" id="exampleModalLabel">Qr Code : <span style="color:blue;">{{$pengguna->name }} - {{$pengguna->role}}<span></h5>
+    <h5 class="modal-title" id="exampleModalLabel">Qr Code : <span style="color:blue;">{{$pengguna->name }} - {{$pengguna->role}} {{$cabang->nama_cabang}}<span></h5>
     <button type="hidden" class="close" data-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">

@@ -29,12 +29,12 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Passwrod Lama</label>
+                            <label>Password Lama</label>
                             <input type="text" required class="form-control" autocomplete="off" name="password" placeholder="Silahkan masukkan password lama">
                             <span class="form-text text-muted">silahkan di isi</span>
                         </div>
                         <div class="form-group">
-                            <label>Passwrod Baru</label>
+                            <label>Password Baru</label>
                             <input type="text" required class="form-control" autocomplete="off" name="new_password" placeholder="Silahkan masukkan password Baru">
                             <span class="form-text text-muted">silahkan di isi</span>
                         </div>

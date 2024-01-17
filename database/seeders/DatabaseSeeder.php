@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
             AksesCustomerSeeder::class,
             AksesSupervisorSeeder::class,
             QuestionSeeder::class,
+            ReportSeeder::class,
+            DetailReportSeeder::class,
+
         ]);
     }
 }
