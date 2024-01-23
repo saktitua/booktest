@@ -37,12 +37,13 @@ class NasabahController extends Controller
         $pengguna = User::where('generate',$request->code)->first();
         $role = Role::where('name',$pengguna->role)->first();
         $report = new Report;
-        $report->user_id    = $pengguna->id;
-        $report->role_id    = $role->id;
-        $report->cabang_id  = $pengguna->cabang_id;
-        $report->nama       = $request->nama_nasabah ?? 'Anonim';
-        $report->reason     = $request->kritik_saran ?? '-';
-        $report->date       = date("Y-m-d");
+        $report->user_id         = $pengguna->id;
+        $report->nama_petugas    = $pengguna->name;
+        $report->role_id         = $role->id;
+        $report->cabang_id       = $pengguna->cabang_id;
+        $report->nama            = $request->nama_nasabah ?? 'Anonim';
+        $report->reason          = $request->kritik_saran ?? '-';
+        $report->date            = date("Y-m-d");
         $report->save();
 
         $question =  Question::all();

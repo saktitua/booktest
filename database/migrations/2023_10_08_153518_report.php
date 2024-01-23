@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('role_id');
             $table->bigInteger('user_id');
             $table->string("nama")->nullable();
+            $table->string("nama_petugas")->nullable();
             // $table->bigInteger("ques1")->default('0'); // 2. Bagaimana penampilan petugas yang melayani ?
             // $table->bigInteger("ques2")->default('0'); // 3. Bagaimana kecepatan petugas yang melayani ?
             // $table->bigInteger("ques3")->default('0'); // 4. Bagaimana kepuasan nasabah terhadap pelayanan kami ?

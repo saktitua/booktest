@@ -2,7 +2,7 @@
     <meta name="viewport" content="initial-scale=1%">
     <style>
         .header-header{
-            margin: auto;
+            text-align: center;
             font-size: 1.1em;
             font-weight: bold;
             color:cornflowerblue;
@@ -20,7 +20,8 @@
     <body>
      <div class="center">
         <div class="header-header">
-            {{$pengguna->name}} - {{$pengguna->role}}  - {{$cabang->nama_cabang}}
+            {{$pengguna->name}}<br>
+            {{$cabang->nama_cabang}}
         </div>
         <div class="content-barcode">
             @if($pengguna->generate !== null)

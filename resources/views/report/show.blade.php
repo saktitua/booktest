@@ -37,25 +37,13 @@
             </tr>
         </thead>
         <tbody>
-            @php 
-                $total = 0;
-            @endphp
             @foreach($detailreport as $key =>$die)
             <tr>
                 <td>{{$die->question}}</td>
                 <td>{{$die->point}}</td>
             </tr>
-           @php 
-            $total += (int)$die->point;
-           @endphp
             @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <th>Total</th>
-                <th>{{$total}}</th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 <div class="modal-footer">

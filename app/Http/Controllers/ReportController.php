@@ -39,7 +39,7 @@ class ReportController extends Controller
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
             ->join('users','report.user_id','=','users.id')
             ->join('roles','report.role_id','=','roles.id')
-            ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions","report.id as total_point")
+            ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions","report.id as total_point")
             ->whereBetween('report.date',[$from,$to]);
         $total = $temp->count();
         $totalFiltered = $total;
@@ -74,7 +74,7 @@ class ReportController extends Controller
                 $obj['nama_nasabah']    = $die->nama_nasabah;
                 $obj['reason']          = $die->reason;
                 $obj['created_at']      = date('m/d/Y',strtotime($die->created_at));
-                $obj['total_point']     = '<a href="javascript:;" data-href="'.route('report.show',$die->id).'" class="btn-report-detail" title="Klik untuk lihat detail pertanyan dan jawaban">'.$totalpoint." Point".'</a>';
+                $obj['total_point']     = '<a href="javascript:;" data-href="'.route('report.show',$die->id).'" class="btn-report-detail" title="Klik untuk lihat detail pertanyan dan jawaban">'."Lihat Detail Report".'</a>';
                 
                 $data [] = $obj;
             }
@@ -94,7 +94,7 @@ class ReportController extends Controller
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
         ->join('users','report.user_id','=','users.id')
         ->join('roles','report.role_id','=','roles.id')
-        ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","users.name as nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
+        ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
         ->whereBetween('report.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])
         ->get();
 

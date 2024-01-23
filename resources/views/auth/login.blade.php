@@ -151,9 +151,7 @@ var KTLoginV1 = function () {
 				});
 				
 	
-			});
-
-			
+			});	
 		});
 	}
 	// Public Functions

@@ -37,33 +37,32 @@
                     </div>
                 </div>
             </div>
+            @php 
+            $total = 0;
+            @endphp
             @foreach($question as $key => $die)
                 @if($die->type == 'radio')
                 <div class="question">
                     <div class="question-text">
-                        {{$key + 1}}  {{$die->question}}
+                        {{$key + 1}}  {{$die->question}}<br>
                         <input type="hidden" name="question[{{$die->id}}]" value="{{$die->question}}" class="quess{{$die->id}}" required>
                         <input type="hidden" name="ques[{{$die->id}}]" class="ques{{$die->id}}" required>
                         <div class="pagination">
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="1">1</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="2">2</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="3">3</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="4">4</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="5">5</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="6">6</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="7">7</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="8">8</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="9">9</a>
-                            <a href="javascript:;" class="click_active{{$die->id}}" value="10">10</a>
+                            <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Bagus">Bagus<span><br>
+                            <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Biasa">Biasa<br>
+                            <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Buruk">Buruk
                         </div>
                     </div>
                 </div>
                 @endif
+                @php 
+                 $total = $key + 1;
+                @endphp
             @endforeach
             <br>
             <div class="question">
                 <div class="question-text">
-                     Kritik Dan Saran <br>
+                    {{$total + 1}} Saran dan masukan agar kami lebih baik<br>
                     <textarea placeholder="Masukkan kritik dan saran anda" style="height:130px;width:300px;" name="kritik_saran" id="kritik_saran"></textarea>
                 </div>
             </div>
@@ -86,7 +85,22 @@
                         url: '{{route("admin.question.getQuesionId")}}',
                         success: function (data){
                             $.each(data.question, function( key, value ){
+                            
+                                
                                 $(document).on('click','.click_active'+value.id,function(){
+                                    var $box = $(this);
+                                    if ($box.is(":checked")) {
+                                        // the name of the box is retrieved using the .attr() method
+                                        // as it is assumed and expected to be immutable
+                                        var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                                        // the checked state of the group/box on the other hand will change
+                                        // and the current value is retrieved using .prop() method
+                                        $(group).prop("checked", false);
+                                        $box.prop("checked", true);
+                                    } else {
+                                        $box.prop("checked", false);
+                                    }
+                                    
                                     $('.click_active'+value.id).removeClass('active')
                                     $(this).addClass('active');
                                     $('.ques'+value.id).val($(this).attr('value'));

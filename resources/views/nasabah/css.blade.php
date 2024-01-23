@@ -35,11 +35,11 @@
         margin:0;
     }
     .pagination {
-        margin-top: 2em;
+        margin-top: 0em;
         display: inline-block;
-        margin-left: 2.5em;
-        font-size:0.4em;
-        border-radius: 10px;
+        margin-left: 0.5em;
+        font-size:0.8em;
+        border-radius: 0px;
     }
 
     .pagination a {
@@ -47,17 +47,17 @@
         float: left;
         padding: 8px 16px;
         text-decoration: none;
-        font-size:0.8em;
+        font-size:0.5em;
         border: #1a1a27 solid;
-        border-radius: 10px;
+        border-radius: 0px;
     }
 
     .pagination a.active {
         background-color: #4CAF50;
         color: white;
         border-radius: 0px;
-        font-size: 0.9em;
-        border-radius: 10px;
+        font-size: 0.5em;
+        border-radius: 0px;
     }
 
     .pagination a:hover:not(.active) {

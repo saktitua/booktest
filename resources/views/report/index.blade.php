@@ -72,7 +72,7 @@
                         <th style="color:white">Nama Nasabah</th>
                         <th style="color:white">Kritik Dan Saran</th>
                         <th style="color:white">Tanggal</th>
-                        <th style="color:white">Total Point Dari Semua Pertanyaan</th>
+                        <th style="color:white">Detail Report</th>
                     </tr>
                 </thead>
                 <tbody>

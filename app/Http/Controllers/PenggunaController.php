@@ -238,7 +238,8 @@ class PenggunaController extends Controller
     public function printqrcode(string $id)
     {
         $pengguna =  User::find($id);
-        return view('qrcode.printqr',compact('pengguna'));
+        $cabang   = Cabang::find($pengguna->cabang_id);
+        return view('qrcode.printqr',compact('pengguna','cabang'));
     }
 
     public function printHardCode($id){
