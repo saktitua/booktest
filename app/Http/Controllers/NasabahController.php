@@ -78,13 +78,14 @@ class NasabahController extends Controller
             $reportdetail->save();
         }
         $question =  Question::where('is_edit',1)->orWhere('is_delete',1)->whereBetween('updated_at',[date('Y-m-d')." 00:00:00",date('Y-m-d'). "23:59:59"])->get();
+        // dd($question);
         foreach($question as $key => $die){
-            $reportdetail = new DetailReport;
-            $reportdetail->report_id = $report->id;
-            $reportdetail->date      = date('Y-m-d');
+            $reportdetail               = new DetailReport;
+            $reportdetail->report_id    = $report->id;
+            $reportdetail->date         = date('Y-m-d');
             $reportdetail->question_id  = $die->id;
-            $reportdetail->question  = $request->question[$die->id];
-            $reportdetail->point     = 0;
+            $reportdetail->question     = $die->question;
+            $reportdetail->point        = 0;
             $reportdetail->save();
         }
         AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');
