@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\AuditTrail;
 use App\Models\Question;
 use App\Models\DetailReport;
+use App\Models\Cabang;
 class NasabahController extends Controller
 {
     /**
@@ -17,8 +18,9 @@ class NasabahController extends Controller
     public function index($generate)
     {
         $pengguna =  User::where('generate',$generate)->first();
+        $cabang   =  Cabang::find($pengguna->cabang_id);
         $question =  Question::where('is_edit',0)->where('is_delete',0)->get();
-        return view('nasabah.index',compact('pengguna','question'));
+        return view('nasabah.index',compact('pengguna','question','cabang'));
     }
 
     /**
@@ -46,26 +48,44 @@ class NasabahController extends Controller
         $report->date            = date("Y-m-d");
         $report->save();
 
-        $question =  Question::all();
+        // $question =  Question::all();
+        // foreach($question as $key => $die){
+        //     if($die->is_edit  != 0 || $die->is_delete != 0){
+        //         $reportdetail = new DetailReport;
+        //         $reportdetail->report_id = $report->id;
+        //         $reportdetail->date      = date('Y-m-d');
+        //         $reportdetail->question  = $die->question;
+        //         $reportdetail->point     = "";
+        //         $reportdetail->save();
+        //     }else{
+        //         $reportdetail = new DetailReport;
+        //         $reportdetail->report_id = $report->id;
+        //         $reportdetail->date      = date('Y-m-d');
+        //         $reportdetail->question  = $request->question[$die->id];
+        //         $reportdetail->point     = isset($request->question[$die->id]) ? $request->ques[$die->id] : 0;
+        //         $reportdetail->save();
+        //     }
+        // }
+
+        $question =  Question::where('is_edit',0)->where('is_delete',0)->get();
         foreach($question as $key => $die){
-            if($die->is_edit  != 0 || $die->is_delete != 0){
-                $reportdetail = new DetailReport;
-                $reportdetail->report_id = $report->id;
-                $reportdetail->date      = date('Y-m-d');
-                $reportdetail->question  = $die->question;
-                $reportdetail->point     = "";
-                $reportdetail->save();
-            }else{
-                $reportdetail = new DetailReport;
-                $reportdetail->report_id = $report->id;
-                $reportdetail->date      = date('Y-m-d');
-                $reportdetail->question  = $request->question[$die->id];
-                $reportdetail->point     = isset($request->question[$die->id]) ? $request->ques[$die->id] : 0;
-                $reportdetail->save();
-            }
-      
-          
-          
+            $reportdetail = new DetailReport;
+            $reportdetail->report_id = $report->id;
+            $reportdetail->date      = date('Y-m-d');
+            $reportdetail->question_id  = $die->id;
+            $reportdetail->question  = $request->question[$die->id];
+            $reportdetail->point     = isset($request->question[$die->id]) ? $request->ques[$die->id] : 0;
+            $reportdetail->save();
+        }
+        $question =  Question::where('is_edit',1)->orWhere('is_delete',1)->whereBetween('updated_at',[date('Y-m-d')." 00:00:00",date('Y-m-d'). "23:59:59"])->get();
+        foreach($question as $key => $die){
+            $reportdetail = new DetailReport;
+            $reportdetail->report_id = $report->id;
+            $reportdetail->date      = date('Y-m-d');
+            $reportdetail->question_id  = $die->id;
+            $reportdetail->question  = $request->question[$die->id];
+            $reportdetail->point     = 0;
+            $reportdetail->save();
         }
         AuditTrail::doLogAudit('Nasabah','Submit Survei',$request->nama,'-');
         return redirect()->back()->with(['success'=>'']);

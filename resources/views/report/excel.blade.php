@@ -16,11 +16,7 @@
             <th>Petugas</th>
             <th>Nasabah</th>
             @foreach($question as $die)
-                @if($die->point != null)
-                    <th style="width:400px;">{{$die->question}}</th>
-                @else 
-                    <th></th>
-                @endif
+                <th style="width:400px;">{{$die->question}}</th>
             @endforeach
         </tr>
     </thead>
@@ -36,13 +32,13 @@
             <td class="f-size-table" style="text-align: left;width:40px;">{!!$die->jenis_layanan!!}</td>
             <td class="f-size-table" style="text-align: left;height:30px;">{!!$die->nama_petugas!!}</td>
             <td class="f-size-table" style="text-align: left;height:30px;">{!!$die->nama_nasabah!!}</td>
-            @foreach($point as $key)
-                @if($key->point != null)
-                <td style="width:400px;">{{$key->point}}</td>
-                @else 
-                <td></td>
+            @for ($i = 0; $i < count($question); $i++)
+                @if(isset($point[$i])) 
+                    <td style="width:400px;">{{$point[$i]->point}}</td>
+                @else
+                    <td style="width:400px;"></td>
                 @endif
-            @endforeach
+            @endfor
         </tr>
         @endforeach
     </tbody>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('report_detail', function (Blueprint $table) {
             $table->id();
             $table->integer('report_id');
+            $table->integer('question_id');
             $table->text('question')->nullable();
             $table->string('point')->default('0')->nullable();
             $table->date('date')->nullable();

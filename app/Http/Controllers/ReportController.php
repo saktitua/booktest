@@ -39,7 +39,7 @@ class ReportController extends Controller
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
             ->join('users','report.user_id','=','users.id')
             ->join('roles','report.role_id','=','roles.id')
-            ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions","report.id as total_point")
+            ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah",'report.date',"report.reason","report.created_at","report.id as actions","report.id as total_point")
             ->whereBetween('report.date',[$from,$to]);
         $total = $temp->count();
         $totalFiltered = $total;
@@ -73,7 +73,7 @@ class ReportController extends Controller
                 $obj['nama_petugas']    = $die->nama_petugas;
                 $obj['nama_nasabah']    = $die->nama_nasabah;
                 $obj['reason']          = $die->reason;
-                $obj['created_at']      = date('m/d/Y',strtotime($die->created_at));
+                $obj['created_at']      = date('m/d/Y',strtotime($die->date));
                 $obj['total_point']     = '<a href="javascript:;" data-href="'.route('report.show',$die->id).'" class="btn-report-detail" title="Klik untuk lihat detail pertanyan dan jawaban">'."Lihat Detail Report".'</a>';
                 
                 $data [] = $obj;
@@ -89,14 +89,34 @@ class ReportController extends Controller
     }
 
     public function export(request $request){
-        $question = DetailReport::select('question','point')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->groupBy('question')->get();
     
-        $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
-        ->join('users','report.user_id','=','users.id')
-        ->join('roles','report.role_id','=','roles.id')
-        ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
-        ->whereBetween('report.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])
-        ->get();
+     
+        $questions = array();
+        $question = DB::table('report_detail')->select('report_id','question_id','question','point')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->groupBy('question')->get();
+        foreach($question as $q => $die){
+            $questions[] = $die->question;
+        }
+        $temp = DB::table('report')->select('id','nama')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->get();
+        foreach($temp as $key => $die){ 
+            $point = DB::table('report_detail')->select('point')->where('report_id',$die->id)->get();
+            foreach($point as $k =>$d){
+                $arrPoint[$k] = $d->point;
+            }
+            $nama [] = [
+                'nasabah'=>$die->nama,
+                'point'=>$arrPoint
+            ];
+        }
+        $report =[
+            'question'=>$questions,
+            'nama'=>$nama
+        ];
+
+      
+        dd($report);
+
+        
+
 
         $from = $request->from_date;
         $to   = $request->to_date;
@@ -104,7 +124,7 @@ class ReportController extends Controller
         if($request->submit ==='pdf'){
             $payStub= new PDF();
             $customPaper = array(0,0,720,1440);
-            $pdf = $payStub::loadView('report.pdf',compact('temp','question','from','to'),[],['title'=>"Report Data Survei"]);
+            $pdf = $payStub::loadView('report.pdf',compact('temp','question','from','to','point'),[],['title'=>"Report Data Survei"]);
             return $pdf->stream('report.pdf');
         }else if($request->submit ==='excel'){
             return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei- '.date('d F Y',strtotime($request->from_date)).' Sd '.date('d F Y',strtotime($request->to_date)).'.xlsx');

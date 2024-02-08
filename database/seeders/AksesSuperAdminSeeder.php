@@ -18,7 +18,7 @@ class AksesSuperAdminSeeder extends Seeder
       
         $role = Role::findByName('superadmin');
         $role->syncPermissions(['Menu Admin', 'Role Maintenance','Role Management','Cabang','Create User','Print Report','Question','Create User Approval','Ganti Password Admin','Audit Trails','Menu User','Edit Action','Print QR']);
-        $user = User::where('username','superadmin')->first();
+        $user = User::where('role','superadmin')->first();
         $user->assignRole('superadmin');
         Artisan::call('cache:clear');
     }

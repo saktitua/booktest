@@ -17,7 +17,7 @@ class AksesCustomerSeeder extends Seeder
     {
         $role = Role::findByName('customer service');
         $role->syncPermissions(['Menu Admin','Print Report','Print QR','Ganti Password User']);
-        $user = User::where('username','customer service')->first();
+        $user = User::where('role','customer service')->first();
         $user->assignRole('customer service');
         Artisan::call('cache:clear');
     }

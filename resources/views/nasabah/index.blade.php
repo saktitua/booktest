@@ -5,7 +5,9 @@
     <head>
         @include('nasabah.css')  
     </head>
-    
+    <style>
+        
+    </style>
     <body>
         @include('nasabah.header-mobile')
         <div class="header header_text">
@@ -20,11 +22,8 @@
         </div>
         <div class="header header_text">
             <b>Service Quality Bank Artha Graha International</b>
-            <p>Range :</p>
-            <ul class="a">
-                <li>1  : Sangat Tidak Puas</li>
-                <li>10 : Sangat Puas</li>
-            </ul>
+            <p style="color:red"><b>{{$pengguna->name}}<b></p>
+            <p style="color:red"><b>{{$pengguna->role}} - {{$cabang->nama_cabang}}<b></p>
         </div>
         <form method="POST" action={{route('nasabah.store')}} id="form-nasabah-submit" >
             @csrf
@@ -44,11 +43,11 @@
                 @if($die->type == 'radio')
                 <div class="question">
                     <div class="question-text">
-                        {{$key + 1}}  {{$die->question}}<br>
+                        {{$key + 1}}.  {{$die->question}}<br>
                         <input type="hidden" name="question[{{$die->id}}]" value="{{$die->question}}" class="quess{{$die->id}}" required>
                         <input type="hidden" name="ques[{{$die->id}}]" class="ques{{$die->id}}" required>
-                        <div class="pagination">
-                            <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Bagus">Bagus<span><br>
+                        <div class="pagination">                 
+                            <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Bagus">Bagus<br>
                             <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Biasa">Biasa<br>
                             <input type="checkbox" class="click_active{{$die->id}}" name="{{$die->id}}"  value="Buruk">Buruk
                         </div>
@@ -62,8 +61,8 @@
             <br>
             <div class="question">
                 <div class="question-text">
-                    {{$total + 1}} Saran dan masukan agar kami lebih baik<br>
-                    <textarea placeholder="Masukkan kritik dan saran anda" style="height:130px;width:300px;" name="kritik_saran" id="kritik_saran"></textarea>
+                    {{$total + 1}}. Saran dan masukan agar kami lebih baik<br>
+                    <textarea placeholder="Saran dan masukan agar kami lebih baik" style="height:130px;width:300px;" name="kritik_saran" id="kritik_saran"></textarea>
                 </div>
             </div>
         </form>
@@ -110,8 +109,8 @@
                                         e.preventDefault();
                                         var alertSuccess = $('.alert-text-success').html();
                                         Swal.fire(
-                                            'Peringatan',
-                                            'jawaban point wajib di isi',
+                                            'Peringatan!',
+                                            'Jawaban wajib diisi',
                                             'danger'
                                         )
                                     }

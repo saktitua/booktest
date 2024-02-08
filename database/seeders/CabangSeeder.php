@@ -183,8 +183,9 @@ class CabangSeeder extends Seeder
             array('id' => '162','kode_cabang' => 'ID0012029','nama_cabang' => 'AKUNTANSI PELAPORAN','alamat' => 'JL JEND SUDIRMAN JKT','created_at' => '2023-10-11 00:00:00','updated_at' => '2023-10-11 00:00:00'),
             array('id' => '163','kode_cabang' => 'ID0012030','nama_cabang' => 'MIKRO INKLUSI KEUANGAN','alamat' => 'JL JEND SUDIRMAN JKT','created_at' => '2023-10-11 00:00:00','updated_at' => '2023-10-11 00:00:00'),
             array('id' => '164','kode_cabang' => 'ID0012031','nama_cabang' => 'KUR MIKRO','alamat' => 'JL JENDRAL SUDIRMAN JKT','created_at' => '2023-10-11 00:00:00','updated_at' => '2023-10-11 00:00:00'),
-            array('id' => '165','kode_cabang' => 'ID0012032','nama_cabang' => 'HUBUNGAN INTERNASIONAL','alamat' => 'JL.JEND.SUDIRMAN JKT','created_at' => '2023-10-11 00:00:00','updated_at' => '2023-10-11 00:00:00')
-        );
+            array('id' => '165','kode_cabang' => 'ID0012032','nama_cabang' => 'HUBUNGAN INTERNASIONAL','alamat' => 'JL.JEND.SUDIRMAN JKT','created_at' => '2023-10-11 00:00:00','updated_at' => '2023-10-11 00:00:00'),
+            array('id' => '166','kode_cabang' => '01','nama_cabang' => 'cokro','alamat' => 'cokro no 40','created_at' => '2024-01-19 11:09:12','updated_at' => '2024-01-19 11:09:23')
+          );
           
         DB::table('cabang')->insert($cabang); 
     }

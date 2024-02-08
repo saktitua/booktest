@@ -49,23 +49,32 @@
                     <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Petugas</th>
                     <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Nasabah</th>
                     @foreach($question as $key => $die)
-                        <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">{{$die->question}}</th>
-                    @endforeach                 
+                        <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">{{$die->question}} {{$key}}</th>
+                    @endforeach
+                    
                 </tr>
             </thead>
             <tbody>
             @foreach($temp as $key => $die)
-                <tr>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{{date('m/d/Y',strtotime($die->created_at)); }}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_cabang!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->reason!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->jenis_layanan!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_petugas!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_nasabah!!}</td>
-                    @foreach($point as $key => $die)
-                        <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;"> {{$die->point}} </th>
-                    @endforeach   
+            @php 
+            $point = App\Models\DetailReport::select('point')->where('report_id',$die->id)->get();
+            @endphp
+            <tr>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{{date('m/d/Y',strtotime($die->created_at)); }}</td>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_cabang!!}</td>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->reason!!}</td>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->jenis_layanan!!}</td>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_petugas!!}</td>
+                <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_nasabah!!}</td>
+                    @for ($i = 0; $i < count($question); $i++)
+                        @if(isset($point[$i])) 
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{{$point[$i]->point}}</td>
+                        @else
+                        <td class="f-size-table td" style="text-align: center;width:40px;"></td>
+                        @endif
+                    @endfor
                 </tr>
+      
             @endforeach
         </tbody>
         </table>

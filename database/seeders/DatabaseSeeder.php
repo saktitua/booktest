@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CabangSeeder::class,
             AksesSuperAdminSeeder::class,
-            AksesAdminSeeder::class,
+            // AksesAdminSeeder::class,
             AksesCustomerSeeder::class,
-            AksesSupervisorSeeder::class,
+            // AksesSupervisorSeeder::class,
             QuestionSeeder::class,
-            ReportSeeder::class,
-            DetailReportSeeder::class,
+            // ReportSeeder::class,
+            // DetailReportSeeder::class,
 
         ]);
     }

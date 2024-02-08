@@ -22,7 +22,7 @@ class ReportExport implements FromView,WithEvents,WithHeadings
     }
     public function view(): View
     {
-        $question = DetailReport::select('question','point')->whereBetween('date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])->groupBy('question')->get();
+        $question = DetailReport::select('question')->whereBetween('date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])->where('point','!=','')->groupBy('question')->get();
         
         $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
         ->join('users','report.user_id','=','users.id')
