@@ -30,6 +30,9 @@ class ReportExport implements FromView,WithEvents,WithHeadings
         ->select('report.id','report.nama','report.date','cabang.nama_cabang','report.reason','roles.name as jenis_layanan','users.name as petugas')
         ->whereBetween('date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])
         ->get();
+        if(count($reports)< 1 ){
+            return redirect()->back()->with(['danger'=>'Data yang di export tidak ada']);
+        }
         $question = DB::table('report_detail')->join('question','report_detail.question','=','question.question')->groupBy('report_detail.question')->select('question.question','report_detail.point','question.id as id_question')->whereBetween('report_detail.date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])->get(); 
         foreach($reports as $key => $die){ 
             foreach($question as $k => $d){
