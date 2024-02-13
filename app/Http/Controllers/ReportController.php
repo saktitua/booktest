@@ -11,6 +11,8 @@ use App\Exports\ReportExport;
 use App\Models\DetailReport;
 use App\Models\Question;
 use DB;
+use Mpdf\Tag\Q;
+
 class ReportController extends Controller
 {
     /**
@@ -18,6 +20,9 @@ class ReportController extends Controller
      */
     public function index()
     {
+      
+        $last =  Question::latest()->first();
+        // dd($last);
         if(Auth()->user()->can('Print Report')){
             return view("report.index");
         }else{
@@ -90,44 +95,53 @@ class ReportController extends Controller
 
     public function export(request $request){
     
-     
-        $questions = array();
-        $question = DB::table('report_detail')->select('report_id','question_id','question','point')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->groupBy('question')->get();
-        foreach($question as $q => $die){
-            $questions[] = $die->question;
-        }
-        $temp = DB::table('report')->select('id','nama')->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->get();
-        foreach($temp as $key => $die){ 
-            $point = DB::table('report_detail')->select('point')->where('report_id',$die->id)->get();
-            foreach($point as $k =>$d){
-                $arrPoint[$k] = $d->point;
+        $reports = DB::table('report')
+        ->join('cabang','report.cabang_id','=','cabang.id')
+        ->join('roles','report.role_id','=','roles.id')
+        ->join('users','report.user_id','=','users.id')
+        ->select('report.id','report.nama','report.date','cabang.nama_cabang','report.reason','roles.name as jenis_layanan','users.name as petugas')
+        ->whereBetween('date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])
+        ->get();
+        $question = DB::table('report_detail')->join('question','report_detail.question','=','question.question')->groupBy('report_detail.question')->select('question.question','report_detail.point','question.id as id_question')->whereBetween('report_detail.date',[date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))])->get(); 
+        foreach($reports as $key => $die){ 
+            foreach($question as $k => $d){
+                $points = DB::table('report_detail')->select('point')->where('question',$d->question)->where('report_id',$die->id)->first(); 
+                $arrpoint[$k] =[
+                    'question' =>$d->question,
+                    'point' =>isset($points->point) ? $points->point : " ",
+                ];
+                $arrquestion[$k] =[
+                    'question' =>$d->question,
+                ];
             }
-            $nama [] = [
-                'nasabah'=>$die->nama,
-                'point'=>$arrPoint
+            $pointArr[] = [
+                'date'=>date('d M Y',strtotime($die->date)),
+                'nama'=>$die->nama,
+                'kritik_saran'=>$die->reason,
+                'jenis_layanan'=>$die->jenis_layanan,
+                'petugas'=>$die->petugas,
+                'nama_cabang'=>$die->nama_cabang,
+                'point'=>$arrpoint,
             ];
+            $questionArr [] =[
+                'questions'=>$arrquestion,
+            ]; 
         }
         $report =[
-            'question'=>$questions,
-            'nama'=>$nama
-        ];
-
-      
-        dd($report);
-
+            'nasabah'=>$pointArr,
+            'questions'=>$arrquestion,
         
-
-
+        ];
         $from = $request->from_date;
         $to   = $request->to_date;
 
         if($request->submit ==='pdf'){
             $payStub= new PDF();
             $customPaper = array(0,0,720,1440);
-            $pdf = $payStub::loadView('report.pdf',compact('temp','question','from','to','point'),[],['title'=>"Report Data Survei"]);
+            $pdf = $payStub::loadView('report.pdf',compact('report'),[],['title'=>"Report Data Survei ".date('d M',strtotime($request->from_date))." s/d ".date('d M',strtotime($request->to_date))." ".date('Y',strtotime($request->from_date))]);
             return $pdf->stream('report.pdf');
         }else if($request->submit ==='excel'){
-            return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei- '.date('d F Y',strtotime($request->from_date)).' Sd '.date('d F Y',strtotime($request->to_date)).'.xlsx');
+            return Excel::download(new ReportExport(date('Y-m-d',strtotime($request->from_date)),date('Y-m-d',strtotime($request->to_date))), 'report-survei- '.date('d F Y',strtotime($request->from_date)).' s/d '.date('d F Y',strtotime($request->to_date)).'.xlsx');
         }
     }
 

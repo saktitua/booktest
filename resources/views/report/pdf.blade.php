@@ -42,32 +42,33 @@
         <table class="inline-p table-list" style="margin-top:20px;width:100%">
             <thead>
                 <tr>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:40px;">Tanggal</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Cabang</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Kritik & Saran</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Jenis Layanan</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Petugas</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">Nasabah</th>
-                    @foreach($question as $key => $die)
-                        <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;">{{$die->question}}</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Tanggal</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Cabang</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Kritik & Saran</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Jenis Layanan</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Petugas</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Nasabah</th>
+                    @foreach($report['questions'] as $key => $die)
+                        <th class="f-size-table-header f-bold th" style="text-align: center;width:120px;">{{$die['question']}}</th>
                     @endforeach                 
                 </tr>
             </thead>
             <tbody>
-            @foreach($temp as $key => $die)
-                <tr>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{{date('m/d/Y',strtotime($die->created_at)); }}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_cabang!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->reason!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->jenis_layanan!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_petugas!!}</td>
-                    <td class="f-size-table td" style="text-align: left;width:40px;">{!!$die->nama_nasabah!!}</td>
-                    @foreach($point as $key => $die)
-                        <th class="f-size-table-header f-bold th" style="text-align: center;width:70px;"> {{$die->point}} </th>
-                    @endforeach   
-                </tr>
-            @endforeach
-        </tbody>
+                @foreach($report['nasabah'] as $key => $k)
+                    <tr>
+                        
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['date']!!}</td>
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['nama_cabang']!!}</td>
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['kritik_saran']!!}</td>
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['jenis_layanan']!!}</td>
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['petugas']!!}</td>
+                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['nama']!!}</td>
+                        @foreach($k['point'] as $key)
+                            <td class="f-size-table-header td" style="text-align: center;width:120px;"> {{$key['point']}} </td>
+                        @endforeach   
+                    </tr>
+                @endforeach 
+            </tbody>
         </table>
     </div>
 </html>

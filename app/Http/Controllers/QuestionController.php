@@ -123,6 +123,7 @@ class QuestionController extends Controller
                 $insert = new Question;
                 $insert->question = $request->question;
                 $insert->type = 'radio';
+                $insert->is_new_edit = 1;
                 $insert->save();
 
                 $is_edit = Question::find($id);
@@ -133,6 +134,7 @@ class QuestionController extends Controller
             if($check == true){
                 $old = Question::where('question',$request->question)->first();
                 $old->is_edit =0;
+           
                 $old->save();
 
                 $is_edit = Question::find($id);
@@ -140,6 +142,8 @@ class QuestionController extends Controller
                 $is_edit->save();
                 
             }
+
+            
             return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
         }else{
             $question->question = $request->question;

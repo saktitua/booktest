@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\Alignment;
 use App\Models\Question;
 use App\Models\DetailReport;
+use DB;
 
 class ReportExport implements FromView,WithEvents,WithHeadings
 {
@@ -22,22 +23,46 @@ class ReportExport implements FromView,WithEvents,WithHeadings
     }
     public function view(): View
     {
-        $question = DetailReport::select('question')->whereBetween('date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])->where('point','!=','')->groupBy('question')->get();
-        
-        $temp = Report::join('cabang','report.cabang_id','=','cabang.id')
-        ->join('users','report.user_id','=','users.id')
+        $reports = DB::table('report')
+        ->join('cabang','report.cabang_id','=','cabang.id')
         ->join('roles','report.role_id','=','roles.id')
-        ->select("report.id","cabang.nama_cabang","roles.name as jenis_layanan","report.nama_petugas","report.nama as nama_nasabah","report.reason","report.created_at","report.id as actions")
-        ->whereBetween('report.date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])
+        ->join('users','report.user_id','=','users.id')
+        ->select('report.id','report.nama','report.date','cabang.nama_cabang','report.reason','roles.name as jenis_layanan','users.name as petugas')
+        ->whereBetween('date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])
         ->get();
-
+        $question = DB::table('report_detail')->join('question','report_detail.question','=','question.question')->groupBy('report_detail.question')->select('question.question','report_detail.point','question.id as id_question')->whereBetween('report_detail.date',[date('Y-m-d',strtotime($this->from_date)),date('Y-m-d',strtotime($this->to_date))])->get(); 
+        foreach($reports as $key => $die){ 
+            foreach($question as $k => $d){
+                $points = DB::table('report_detail')->select('point')->where('question',$d->question)->where('report_id',$die->id)->first(); 
+                $arrpoint[$k] =[
+                    'question' =>$d->question,
+                    'point' =>isset($points->point) ? $points->point : " ",
+                ];
+                $arrquestion[$k] =[
+                    'question' =>$d->question,
+                ];
+            }
+            $pointArr[] = [
+                'date'=>date('d M Y',strtotime($die->date)),
+                'nama'=>$die->nama,
+                'kritik_saran'=>$die->reason,
+                'jenis_layanan'=>$die->jenis_layanan,
+                'petugas'=>$die->petugas,
+                'nama_cabang'=>$die->nama_cabang,
+                'point'=>$arrpoint,
+            ];
+            $questionArr [] =[
+                'questions'=>$arrquestion,
+            ]; 
+        }
+        $report =[
+            'nasabah'=>$pointArr,
+            'questions'=>$arrquestion,
+        ];
         $from = $this->from_date;
         $to   = $this->to_date;
         return view('report.excel', [
-            'temp' =>  $temp,
-            'question'=>$question,
-            'from'=>$from,
-            'to'=>$to
+            'report' => $report,
         ]);
 
     }
