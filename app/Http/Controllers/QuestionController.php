@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use DB;
+use App\Models\AuditTrail;
+use Auth;
 
 class QuestionController extends Controller
 {
@@ -34,7 +36,7 @@ class QuestionController extends Controller
         if(empty($request->input('search.value'))){
             $boot = $temp->offset($start)
                     ->limit($limit)
-                    ->orderBy($order, $dir)
+                    ->orderBy($order, $dir,'desc')
                     ->get();
         }else{
             $search = $request->input('search.value');
@@ -88,7 +90,9 @@ class QuestionController extends Controller
         $question->question = $request->question;
         $question->type = 'radio';
         $question->save();
+        AuditTrail::doLogAudit('Question',Auth::user()->name." membuat Pertanyaan ".$request->question." ",Auth::user()->name,Auth::user()->role);
         return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di tambahkan']);
+    
     }
 
     /**
@@ -106,6 +110,7 @@ class QuestionController extends Controller
     public function edit(string $id)
     {
         $questions = Question::find($id);
+       
         return view('question.edit',compact('questions'));
     }
 
@@ -117,13 +122,11 @@ class QuestionController extends Controller
         $question = Question::find($id);
         if($question->question != $request->question){
                    
-            // cek question lama
             $check = DB::table("question")->where('question',$request->question)->exists();
             if($check == false){
                 $insert = new Question;
                 $insert->question = $request->question;
                 $insert->type = 'radio';
-                $insert->is_new_edit = 1;
                 $insert->save();
 
                 $is_edit = Question::find($id);
@@ -143,7 +146,7 @@ class QuestionController extends Controller
                 
             }
 
-            
+            AuditTrail::doLogAudit('Question',Auth::user()->name." Edit Pertanyaan ".$question->question." Dengan ".$request->question,Auth::user()->name,Auth::user()->role);
             return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di update']);
         }else{
             $question->question = $request->question;
@@ -163,6 +166,7 @@ class QuestionController extends Controller
         $question = Question::find($id);
         $question->is_delete =1;
         $question->save();
+        AuditTrail::doLogAudit('Question',Auth::user()->name." menghapus Pertanyaan ".$question->question." ",Auth::user()->name,Auth::user()->role);
         return redirect()->route('question.index')->with(['success'=>'Pertanyaan berhasil di hapus']);
 
     }

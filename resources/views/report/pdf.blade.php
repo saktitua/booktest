@@ -38,36 +38,55 @@
 
     </style>
      <div style="display:inline-block; ">
-        
+        @if(isset($cabang))
+        <table class="inline-p">
+            <tr>
+                <td class="f-size-table">Cabang</td><td class="f-size-table  th">:</td><td class="f-size-table  f-bold" style="text-align: left">{{$cabang->nama_cabang}}</td>
+            </tr>
+            <tr>
+                <td class="f-size-table">Tanggal</td><td class="f-size-table  th">:</td><td class="f-size-table">{{date('d M Y',strtotime($from))}} s/d {{date('d M Y',strtotime($to))}} </td>
+            </tr>
+        </table>
+        @else 
+        <table class="inline-p">
+            <tr>
+                <td class="f-size-table">Cabang</td><td class="f-size-table  th">:</td><td class="f-size-table  f-bold" style="text-align: left">{{"Semua Cabang"}}</td>
+            </tr>
+            <tr>
+                <td class="f-size-table">Tanggal</td><td class="f-size-table  th">:</td><td class="f-size-table">{{date('d M Y',strtotime($from))}} s/d {{date('d M Y',strtotime($to))}} </td>
+            </tr>
+        </table>
+        @endif
         <table class="inline-p table-list" style="margin-top:20px;width:100%">
             <thead>
                 <tr>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Tanggal</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Cabang</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Kritik & Saran</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Jenis Layanan</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Petugas</th>
-                    <th class="f-size-table-header f-bold th" style="text-align: center;width:80px;">Nasabah</th>
-                    @foreach($report['questions'] as $key => $die)
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:50px;">Tanggal</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:100px;">Cabang</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:80px;">Kritik & Saran</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:80px;">Jenis Layanan</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:80px;">Petugas</th>
+                    <th class="f-size-table-header f-bold th" style="text-align: left;width:80px;">Nasabah</th>
+                    @foreach($report['question'] as $key => $die)
                         <th class="f-size-table-header f-bold th" style="text-align: center;width:120px;">{{$die['question']}}</th>
                     @endforeach                 
                 </tr>
             </thead>
-            <tbody>
-                @foreach($report['nasabah'] as $key => $k)
+            <tbody>   
+                @foreach($report['nasabah'] as $k => $p)
+                    @foreach($p as $s => $key)
                     <tr>
-                        
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['date']!!}</td>
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['nama_cabang']!!}</td>
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['kritik_saran']!!}</td>
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['jenis_layanan']!!}</td>
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['petugas']!!}</td>
-                        <td class="f-size-table td" style="text-align: center;width:40px;">{!!$k['nama']!!}</td>
-                        @foreach($k['point'] as $key)
-                            <td class="f-size-table-header td" style="text-align: center;width:120px;"> {{$key['point']}} </td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{date('d M Y',strtotime($key['tanggal']))}}</td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{$key['cabang']}}</td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{$key['kritik_saran']}}</td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{$key['jenis_layanan']}}</td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{$key['petugas']}}</td>
+                        <td class="f-size-table td" style="text-align: left;width:10px;">{{$key['nama']}}</td>
+                        @foreach($key['points'] as $po)
+                            <td class="f-size-table-header td" style="text-align: center;width:120px;"> {{$po['point']}} </td>
                         @endforeach   
                     </tr>
-                @endforeach 
+                    @endforeach
+                @endforeach
             </tbody>
         </table>
     </div>

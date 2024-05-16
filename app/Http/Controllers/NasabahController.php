@@ -53,7 +53,6 @@ class NasabahController extends Controller
             $reportdetail = new DetailReport;
             $reportdetail->report_id = $report->id;
             $reportdetail->date      = date('Y-m-d');
-            $reportdetail->question_id  = $die->id;
             $reportdetail->question  = $request->question[$die->id];
             $reportdetail->point     = isset($request->question[$die->id]) ? $request->ques[$die->id] : 0;
             $reportdetail->save();
