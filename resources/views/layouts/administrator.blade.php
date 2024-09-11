@@ -4,7 +4,7 @@
 	<head>
 		<base href="">
 		<meta charset="utf-8" />
-		<title>Microsite | {{$title}}</title>
+		<title>PT Markplus | {{$title}}</title>
 		<meta name="description" content="Updates and statistics">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf_token" content="{{ csrf_token() }}">

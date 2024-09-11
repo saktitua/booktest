@@ -4,7 +4,7 @@
     <head>
         <base href="../../../">
         <meta charset="utf-8" />
-        <title>Micro Site  | Login </title>
+        <title>PT Mark Plus  | Login </title>
         <meta name="description" content="Microsite, Microsite login">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -34,7 +34,7 @@
 						<div class="kt-grid__item">
 							<div class="kt-login__info">
 								<div class="kt-login__copyright">
-									&copy 2023 MicroSite
+									&copy 2024 Markplus
 								</div>
 							</div>
 						</div>

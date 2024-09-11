@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('auditTrail', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('menu')->nullable();
-            $table->string('description')->nullable();
-            $table->string('username')->nullable();
-            $table->string('jenis_layanan')->nullable();
+            $table->string('name');
+            $table->bigInteger('years');
+            $table->longText('slug');
+            $table->string('author');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('auditTrail');
+        Schema::dropIfExists('books');
     }
 };

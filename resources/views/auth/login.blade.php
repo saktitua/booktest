@@ -7,7 +7,7 @@
     <div class="kt-login__head">
         <div class="kt-login__logo">
             <a href="#">
-                <img src="{{asset('logo/agilogo.png')}}" width="15%">
+              
             </a>
         </div>
     </div>
@@ -36,9 +36,6 @@
 				</div>
                 <!--begin::Action-->
                 <div class="row kt-login__extra mt-5">
-                    <div class="col kt-align-right">
-                        <a href="javascript:;" data-href="{{route('notif.modal')}}" id="kt_login_forgot" class="kt-link kt-login__link btn-forgot">Forget Password ?</a>
-                    </div>
                 </div>
                 <div class="kt-login__actions">
                     <button id="kt_login_signin_submit" class="btn-block btn btn-primary btn-elevate kt-login__btn-primary">Masuk</button>

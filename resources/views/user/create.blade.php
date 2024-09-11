@@ -6,7 +6,7 @@
     <form action="{{route('pengguna.store')}}" id="create-form" method="POST" autocomplete="off">
         @csrf
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="form-group">
                     <label>Nama *</label>
                     <input type="text"  class="form-control" autocomplete="off" name="name" placeholder="Nama User" required>

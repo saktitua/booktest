@@ -15,17 +15,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            PermissionSeeder::class,
-            RoleSeeder::class,
-            CabangSeeder::class,
-            AksesSuperAdminSeeder::class,
-            // AksesAdminSeeder::class,
-            AksesCustomerSeeder::class,
-            // AksesSupervisorSeeder::class,
-            QuestionSeeder::class,
-            // ReportSeeder::class,
-            // DetailReportSeeder::class,
-
+            // PermissionSeeder::class,
+            // AksesCustomerSeeder::class,
+            // QuestionSeeder::class,
         ]);
     }
 }
